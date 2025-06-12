@@ -1,0 +1,16 @@
+x = pas fait
+v = fait 
+
+dans la table pnj : 
+    v terh et terv , taille du territoire
+    v VIC voir les invisible /camourflage
+    v am exemple amattack et amarmmag nombre d'amelioration de stats a mettre dans la table entity
+    v si la taniere c'est une instance ou juste un point sur un map 
+    v c'est quoi les pierres c'est le niveaux d'aggro
+    v la diplomatie et le rank diplomatie
+    v dissolution /savoir si le mec a le droit dissoudre 
+    v CT /argent
+    v corps savoir si le il y a un corps
+    v identite
+    x petit plus essayer de voir pour les carnovore et les herbivor
+
