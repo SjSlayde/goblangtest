@@ -14,3 +14,48 @@ dans la table pnj :
     v identite
     x petit plus essayer de voir pour les carnovore et les herbivor
 
+
+dans la table object :
+    atttypeaugment etc
+    EZ
+    id reservation et nom reservation 
+    matiere
+    placeobjet et etatobject
+    idpresentation
+    nbtemplate
+    modele
+    magicobjet
+    utilise
+
+monstre ; 
+    valide 
+    commentaire
+
+lieu : 
+    architecture
+
+connait:
+    utilise
+
+zone:
+    dureezone il y a des zones qui sont temporaire ?
+
+quete:
+    diff1 et 2 
+
+etape:
+    arg1 a 6 qui sont ils ?
+
+la table disction c'est quoi ? 
+
+recompense comment il fonctionne ?
+
+doit on renommé toute les cle etranger ?
+
+les tables stock , dearation et recette?
+
+les tables etat du marché doit on s'en occuper ?
+
+transaction ,divin et cible ?
+
+quelles ont les ordre pnj ?
