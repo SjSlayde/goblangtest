@@ -44,18 +44,20 @@ quete:
     diff1 et 2 
 
 etape:
-    arg1 a 6 qui sont ils ?
+    arg1 a 6 qui sont ils et comment fonctionne t'il avec les recompense ?
 
-la table disction c'est quoi ? 
+la table suivante c'est quoi :
+    disction
+    les tables stock  
+    declarationlove
+    recette
+    transaction 
+    cible 
 
 recompense comment il fonctionne ?
 
-doit on renommé toute les cle etranger ?
-
-les tables stock , dearation et recette?
+doit on renommé toute les cle etranger  ou laisser juste id afficher dans les tables?
 
 les tables etat du marché doit on s'en occuper ?
 
-transaction ,divin et cible ?
-
-quelles ont les ordre pnj ?
+comment sont transmis les ordre aux pnj ?
