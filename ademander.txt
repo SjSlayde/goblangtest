@@ -14,6 +14,10 @@ dans la table pnj :
     v identite
     x petit plus essayer de voir pour les carnovore et les herbivor
 
+dans la table magie :
+    ordre 
+    time
+
 
 dans la table object :
     atttypeaugment etc
@@ -50,6 +54,12 @@ etape:
     arg1 a 6 qui sont ils et comment fonctionne t'il avec les recompense ?
     typeetape 
 
+recompense :
+    recompensetype c'est pour savoir si exemple on donne des minerais ou des equipements?
+
+TypeCafard:
+    upgrade un cafard peut upgrade ?
+
 la table suivante c'est quoi :
     disction
     les tables stock  
@@ -59,6 +69,9 @@ la table suivante c'est quoi :
     cible 
     honeypot
     dforce
+
+quelles est ce fameux modele qui ce situe dans 7 table exemple equipêment , composant et lieux? 
+pareil pour template c'est quoi ? ce situe dans lieux et objet.
 
 recompense comment il fonctionne ?
 
