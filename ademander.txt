@@ -42,9 +42,13 @@ zone:
 
 quete:
     diff1 et 2 
+    typequete 
+    le createur est un pnj ou le joueur ?
+    teamsize c'est le max de joueur ?
 
 etape:
     arg1 a 6 qui sont ils et comment fonctionne t'il avec les recompense ?
+    typeetape 
 
 la table suivante c'est quoi :
     disction
@@ -53,6 +57,8 @@ la table suivante c'est quoi :
     recette
     transaction 
     cible 
+    honeypot
+    dforce
 
 recompense comment il fonctionne ?
 
