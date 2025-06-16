@@ -80,3 +80,7 @@ doit on renommé toute les cle etranger  ou laisser juste id afficher dans les t
 les tables etat du marché doit on s'en occuper ?
 
 comment sont transmis les ordre aux pnj ?
+
+un gobelin peut il avoir un niveaux different de niveaux de voir l'obscurité ?
+
+dans un filon de fer le minerais est generer a la creation du filon ou quand le joueur le récolte ?
