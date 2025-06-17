@@ -29,12 +29,12 @@ dans la table object :
 				pour l'instant je pars du principe que c'est dans les event 
     	v nbtemplate// nombre d'enchante
     	v modele // partie du monstre de l'objet
-   	v magicobjet // affiliation magic
+   	 	v magicobjet // affiliation magic
     	v utilise // placement de l'objet si equiper
 
 monstre ; 
     	v valide // validation pour faire spawn le monstre 
-   	v commentaire // juste commentaire de développement 
+   		v commentaire // juste commentaire de développement 
 
 lieu : 
     	v architecture // instancetype 
@@ -44,7 +44,7 @@ connait:
     	v utilise // booleen pour savoir si ça a était utiliser dans le tour
 
 zone:
-    dureezone il y a des zones qui sont temporaire ? oui 
+    	v dureezone il y a des zones qui sont temporaire ? oui 
 
 quete:
     diff1 et 2 // diff1 est egale 1 et pareil pour le 2 = 2 en gros sert a rien 
@@ -64,14 +64,14 @@ TypeCafard:
     	v upgrade un cafard peut upgrade ? savoir si ont peut obtenir le cafard dans un levelup
 
 la table suivante c'est quoi :
-    zone // zone d'effect pour les potion / sort
-    Distinctions // c'est les haut-fait et les signe distinctive du joueurs
-    les tables stock // c'est cacher mais ça permet de stocker des sort 
-    declarationlove // c'est saint valegobling
+    	v zone // zone d'effect pour les potion / sort
+    	v Distinctions // c'est les haut-fait et les signe distinctive du joueurs
+    	v les tables stock // c'est cacher mais ça permet de stocker des sort 
+    	v declarationlove // c'est saint valegobling
     	v recette // recette de cuisine et d'alchimie, j'ai mis les recette d'artisanat avec 
-    transaction // c'est pour de la vente d'objeten main propre 
+    	v transaction // c'est pour de la vente d'objeten main propre 
     	v cible // c'est pour l'aggro
-	v ordrepnj 
+		v ordrepnj 
     honeypot //
     dforce //
 
@@ -89,3 +89,5 @@ comment sont transmis les ordre aux pnj ? action pnj et interaction
 	v un gobelin peut il avoir un niveaux different de niveaux de voir l'obscurité ? oui 
 
 	v dans un filon de fer le minerais est generer a la creation du filon ou quand le joueur le récolte ? recolte 
+
+je  me demande si il y a pas moyen de fusionner order pnj et ai a voir 
