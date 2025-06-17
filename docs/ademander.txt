@@ -84,7 +84,7 @@ recompense comment il fonctionne ?
 
 les tables etat du marché doit on s'en occuper ? oui 
 
-comment sont transmis les ordre aux pnj ? action pnj et interaction
+	v comment sont transmis les ordre aux pnj ? action pnj et interaction
 
 	v un gobelin peut il avoir un niveaux different de niveaux de voir l'obscurité ? oui 
 
