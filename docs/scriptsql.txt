@@ -17,7 +17,7 @@ CREATE TABLE professions(
    id UUID,
    code VARCHAR(255)  NOT NULL,
    name VARCHAR(255)  NOT NULL,
-   rank_ VARCHAR(100)  NOT NULL,
+   rank_ enum NOT NULL ('apprentice' ,'companion' , 'master' , 'grandmaster'),
    PRIMARY KEY(id)
 );
 
@@ -356,7 +356,7 @@ CREATE TABLE feat(
    name VARCHAR(255)  NOT NULL,
    level INT NOT NULL,
    ip INT NOT NULL,
-   maxrank INT NOT NULL,
+   rankmax enum NOT NULL ('apprentice' ,'companion' , 'master' , 'grandmaster'),
    description VARCHAR(255)  NOT NULL,
    script VARCHAR(255)  NOT NULL,
    family UUID NOT NULL,
@@ -624,7 +624,7 @@ CREATE TABLE knows(
    soul TEXT,
    talent UUID,
    percent INT NOT NULL,
-   rank_ enum('apprentice' ,'companion' , 'master' , 'grandmaster') NOT NULL,
+   rank_ enum NOT NULL ('apprentice' ,'companion' , 'master' , 'grandmaster'),
    useinturn BOOLEAN NOT NULL,
    PRIMARY KEY(soul, talent),
    FOREIGN KEY(soul) REFERENCES souls(id),
@@ -1193,7 +1193,7 @@ CREATE TABLE prerequisitedprofession(
 CREATE TABLE entityfeat(
    feat UUID,
    soul TEXT,
-   rank_ INT NOT NULL,
+   rank_ enum NOT NULL ('apprentice' ,'companion' , 'master' , 'grandmaster'),
    uses INT NOT NULL,
    specialization VARCHAR(255)  NOT NULL,
    PRIMARY KEY(feat, soul),
