@@ -72,10 +72,10 @@ la table suivante c'est quoi :
     	v transaction // c'est pour de la vente d'objeten main propre 
     	v cible // c'est pour l'aggro
 		v ordrepnj 
-    honeypot //
+    honeypot // pour un probleme de soupson triche
     dforce //
 
-quelles est ce fameux modele qui ce situe dans 7 table exemple equipêment , composant et lieux? 
+quelles est ce fameux modele qui ce situe dans 7 table exemple equipêment , composant et lieux?  la forme a ajouter 
 pareil pour template c'est quoi ? ce situe dans lieux et objet.
 
 recompense comment il fonctionne ? 
