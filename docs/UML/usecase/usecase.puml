@@ -1,0 +1,85 @@
+@startuml VillageGreen
+left to right direction
+
+actor user
+actor god
+actor administrateur
+
+user ..> god
+
+package "Site web Gobland" {
+    usecase "S'inscrire"
+    usecase "Se connecter / Se déconnecter"
+    usecase "Consulter l'encyclopédie"
+    usecase "Faire un don"
+    usecase "Consulter les news"
+    usecase "Consulter la charte du jeu"
+    usecase "Consulter la liste des meilleurs monstres et gobelins" as top
+    usecase "Choisir ou créer son gobelin" as selectgob
+    usecase "Consulter le tableau de bord du gobelin" as panjeux
+    usecase "Actions basiques" as actbas
+    usecase "Utilisation des talents" as acttal
+    usecase "Actions divines" as actdiv
+    usecase "Création et consultation des messages" as message
+    usecase "Message en rêve" as mesdiv
+    usecase "Gestion des prières" as prayer
+    usecase "Se déplacer" as move
+    usecase "Attaquer une cible" as target
+    usecase "Équiper une pièce d'équipement" as equip
+    usecase "Décaler sa DLA" as DLA
+    usecase "Trouver son chemin" as touvchem
+    usecase "Se concentrer" as conc
+    usecase "Prier"
+    usecase "Abaisser ses défenses" as abdef
+}
+
+package "Gestion administration" {
+    usecase "Gestion des news"
+    usecase "Gestion du jeu" as game
+    usecase "Gestion des objets au sol" as object
+    usecase "Gestion des monstres" as monster
+    usecase "Génération de quêtes" as quest
+    usecase "Consultation des historiques des joueurs et entités non-joueurs" as event
+    usecase "Panneau des bannissements de joueurs" as ban
+}
+
+selectgob ..> panjeux :<<extend>>
+panjeux ..> actbas :<<extend>>
+panjeux ..> acttal :<<extend>>
+panjeux ..> actdiv :<<extend>>
+actdiv ..> mesdiv :<<extend>>
+actdiv ..> prayer :<<extend>>
+actbas ..> move :<<extend>>
+actbas ..> target :<<extend>>
+actbas ..> equip :<<extend>>
+actbas ..> DLA :<<extend>>
+actbas ..> Prier :<<extend>>
+actbas ..> touvchem :<<extend>>
+actbas ..> conc :<<extend>>
+actbas ..> abdef :<<extend>>
+
+note top of actdiv
+    Accessible uniquement par les joueurs ayant le rôle de dieux
+end note
+
+god --> (actdiv)
+user --> (Consulter l'encyclopédie)
+user --> (Faire un don)
+user --> (Consulter les news)
+user --> (Consulter la charte du jeu)
+user --> (top)
+user --> (Se connecter / Se déconnecter)
+user --> (S'inscrire)
+user --> (selectgob)
+user --> (message)
+
+game ..> monster :<<extend>>
+game ..> object :<<extend>>
+game ..> quest :<<extend>>
+
+administrateur --> (Gestion des news)
+administrateur --> (game)
+administrateur --> (event)
+administrateur --> (ban)
+
+@enduml

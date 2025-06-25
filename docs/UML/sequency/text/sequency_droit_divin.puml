@@ -1,0 +1,64 @@
+@startuml action_gobelin_sequence
+
+actor Utilisateur
+participant "Interface Web" as UI
+participant "Gobland" as System
+
+UI -> System : Charge l'interface d'utilisation du gobelin
+System -> UI : Affiche l'interface
+
+Utilisateur -> UI : Clique sur "Pouvoir Divin"
+UI -> System : Demande d'accès
+System -> System : Vérification des droits d'accès
+
+alt #lightgreen accès autoriser
+    System -> UI : Affiche le menu des Pouvoirs Divins disponibles
+else #FFCCCC accès non autoriser
+    System -> UI : Affiche un message d'erreur
+end
+
+
+alt Gestion des prières
+    Utilisateur -> UI : Clique sur "Gestion des Prières"
+    UI -> Utilisateur : Affiche l'interface gestion des prières
+        alt Création/Modification d'une prière
+            alt Création d'une prière
+                Utilisateur -> UI : Clique sur "Créer"
+                UI -> Utilisateur : affiche l'interface de création de la prière
+                Utilisateur -> UI : Selectionne l'effet, la durée, le cout d'utilisation et un message
+                UI -> System : Trasmet les paramètres de création de la prière 
+            else Modification d'une prière
+                Utilisateur -> UI : Clique sur "Modifier"
+                UI -> Utilisateur : affiche l'interface de Mofication de la prière
+                Utilisateur -> UI : Modifie le cout d'utilisation
+                UI -> System : Trasmet les nouveaux paramètres de la prière 
+            end
+                System -> System : Verification des paramètres
+                alt #lightgreen paramètres correcte
+                    System -> System :Enregistre la prière et détermine les coûts de revient ainsi que la perte de piété associée pour le dieu
+                else #FFCCCC paramètres incorrect
+                    System -> UI : Affiche un message d'erreur
+                end
+        else Suppresion d'une prière
+             Utilisateur -> UI : Clique sur "Supprimer"
+            UI -> Utilisateur : affiche un Message demande de confirmation
+            Utilisateur -> UI : Clique sur "Oui"
+            UI -> System : Envoi la requête de suppression
+            System -> System : Supprime la requête
+            System -> UI :Affiche un messade de confirmation de la suppression
+        end
+
+else "Envoyer un rêve"
+    Utilisateur -> UI : Clique sur "Envoyer un rêve"
+    UI -> Utilisateur : affiche l'interface de création des rêves
+    Utilisateur -> Utilisateur : Séléctionne le ou les destinataires, écrit un titre et un message
+    Utilisateur -> UI : Clique sur "envoyer"
+    UI -> System : Trasmet les paramètres du rêve
+    System -> System : Verification des paramètres
+    alt #lightgreen paramètres correcte
+        System -> System :Enregistre le "Rêve" et attend que les joueurs se connectent pour le leur transmettre
+    else #FFCCCC paramètres incorrect
+        System -> UI : Affiche un message d'erreur
+    end
+end
+@enduml

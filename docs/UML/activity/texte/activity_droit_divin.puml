@@ -1,0 +1,61 @@
+@startuml droit_divin
+
+start
+
+repeat
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Pouvoir divin";
+
+backward :Le système affiche un message d'erreur;
+repeat while (Le système vérifie que le gobelin a bien les droits) is (interdit) not (autorisé)
+
+:Le système affiche l'interface dédiée aux dieux;
+
+if (L'utilisateur choisit l'action) then (Gestion des prières)
+
+    partition #lightYellow "Gestion des prières" {
+        :Le système affiche la liste des prières;
+
+        if (L'utilisateur choisit une action) then (Création d'une prière)
+
+            repeat
+            :Le système affiche l'interface de création d'une prière;
+            :L'utilisateur sélectionne les effets, les coûts d'utilisation et écrit un message;
+            backward :Le système affiche un message d'erreur;
+            repeat while (Le système vérifie les paramètres de la prière.) is (incorrect) not (correct)
+
+        elseif (Suppression d'une prière)
+            :Le système supprime la prière;
+            stop
+
+        elseif (Modification d'une prière)
+
+            repeat
+            :Le système affiche l'interface de modification d'une prière;
+            :L'utilisateur modifie le coût de la prière;
+            backward :Le système affiche un message d'erreur;
+            repeat while (Le système vérifie les paramètres de la prière.) is (incorrect) not (correct)
+
+        endif
+        
+        :Le système met à jour la prière et détermine les coûts de revient ainsi que la perte de piété du dieu.;
+        :Le système affiche la liste des prières mise à jour;
+    }
+
+else (Messager des songes — envoyer un rêve)
+
+    partition #lightGray "Messager des songes" {
+        repeat
+        :Le système affiche l'interface pour créer un "Rêve";
+        :L'utilisateur sélectionne le ou les destinataires;
+        :L'utilisateur écrit un titre, un message et clique sur envoyer;
+        repeat while (Le système vérifie la validité des destinataires et la conformité du message.) is (incorrect) not (correct)
+        :Le système enregistre le "Rêve" et attend que les joueurs se connectent pour le leur transmettre;
+    }
+
+endif
+
+stop
+
+@enduml

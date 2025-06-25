@@ -1,0 +1,62 @@
+@startuml action_gobelin_sequence
+
+actor Utilisateur
+participant "Interface Web" as UI
+participant "Gobland" as System
+
+Utilisateur -> UI : Clique sur "Jouer"
+UI -> System : Vérifie les identifiants
+alt #FFCCCC Identifiants incorrects
+    UI -> Utilisateur : Redirige vers la page de connexion
+    return
+end
+
+System -> System : Vérifie si un gobelin est enregistré
+alt #lightgreen Gobelin trouvé
+    System -> UI : Affiche la liste des gobelins + lien pour créer un nouveau
+else #FFCCCC Aucun gobelin
+    UI -> Utilisateur : Redirige vers la création de gobelin
+end
+
+Utilisateur -> UI : Choisit un gobelin
+UI -> System : Charge l'interface d'utilisation du gobelin
+System -> UI : Affiche l'interface
+
+Utilisateur -> UI : Clique sur "Choisir une action"
+UI -> System : Affiche le menu des actions disponibles
+
+alt Action = Se déplacer
+    group Utilisation action basique
+        UI -> Utilisateur : Affiche la vue déplacement
+        Utilisateur -> UI : Choisit "à gauche (y-1)"
+        UI -> System : Demande déplacement
+        System -> System : Vérifie les obstacles
+        alt #lightgreen Déplacement possible
+            System -> System : Met à jour les coordonnées
+        else #FFCCCC Obstacle
+            System -> UI : Affiche message "déplacement impossible"
+        end
+    end group
+
+else Action = "Boule de feu"
+    group Utilisation technique
+        System -> System : Vérifie PA
+        alt #lightgreen Nombre de PA suffisant
+            UI -> Utilisateur : Affiche interface de ciblage
+            Utilisateur -> UI : Sélectionne une cible
+            UI -> System : Transmet la cible
+            System -> System : Teste la compétence
+            alt #lightgreen Réussite
+                System -> System : Calcule les dégâts
+                System -> System : Applique les dégâts à la cible
+            else #FFCCCC Échec
+                System -> UI : Affiche "action échouée"
+            end
+        else #FFCCCC Nombre de PA non suffisant
+            UI -> Utilisateur : Action impossible
+        end
+    end group
+end
+
+System -> UI : Affiche la vue mise à jour
+@enduml
