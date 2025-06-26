@@ -23,7 +23,7 @@ UI -> System : Charge l'interface d'utilisation du gobelin
 System -> UI : Affiche l'interface
 
 Utilisateur -> UI : Clique sur "Choisir une action"
-UI -> System : Affiche le menu des actions disponibles
+UI -> Utilisateur : Affiche le menu des actions disponibles
 
 alt Action = Se déplacer
     group Utilisation action basique
@@ -35,6 +35,20 @@ alt Action = Se déplacer
             System -> System : Met à jour les coordonnées
         else #FFCCCC Obstacle
             System -> UI : Affiche message "déplacement impossible"
+        end
+    end group
+    
+else Action = "Décaler sa DLA"
+    group Action Décaler la DLA
+        System -> UI : Affiche l'interface de sélection de DLA
+        Utilisateur -> UI : Choisit une nouvelle heure
+        UI -> System : Transmet le choix
+        System -> System : Vérifie la validité du décalage
+        alt #lightgreen Décalage autorisé
+            System -> System : Met à jour la DLA
+            System -> UI : Affiche confirmation
+        else #FFCCCC Refusé
+            System -> UI : Affiche un message d'erreur
         end
     end group
 
@@ -57,6 +71,6 @@ else Action = "Boule de feu"
         end
     end group
 end
-
+System -> System : Déduit les PA requis
 System -> UI : Affiche la vue mise à jour
 @enduml

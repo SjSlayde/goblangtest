@@ -1,4 +1,4 @@
-@startuml action_gobelin
+@startuml action_gobelin1
 
 start
 
@@ -35,6 +35,14 @@ if (Le système affiche un menu déroulant avec toutes les actions possibles du 
             :Le système ne déplace pas le gobelin dans la direction souhaitée;
         endif
     }
+
+elseif (L'utilisateur clique sur l'action "Décaler sa DLA")
+    partition #D0F0C0 "Action Décaler sa DLA" {
+        :Le système affiche une interface pour choisir une nouvelle DLA;
+        :L'utilisateur sélectionne une nouvelle heure;
+        :Le système modifie la DLA du gobelin selon le choix de l'utilisateur et affiche un message confirmant le changement;
+    }
+
 else (L'utilisateur clique sur la technique "Boule de feu")
     partition #FFCCCC "Utilisation technique" {
     if (Le système vérifie que l'utilisateur a suffisamment de points d'action) then (Oui)
