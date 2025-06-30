@@ -1,0 +1,1364 @@
+@startuml DBVillageGreen
+
+class player {
+  id : UUID
+  email : VARCHAR
+  maxcharacter : INT
+  name : VARCHAR
+  imageprofil : VARCHAR
+}
+
+class family {
+  id : UUID
+  nom : VARCHAR
+}
+
+class profession {
+  id : UUID
+  code : VARCHAR
+  name : VARCHAR
+  rank_ : enum
+}
+
+class Clan {
+  id : UUID
+  name : VARCHAR
+  datecreation : DATETIME
+  description : TEXT
+  blazon : VARCHAR
+  pledgeallegiance : UUID
+}
+
+class mail {
+  id : UUID
+  title : VARCHAR
+  text : TEXT
+  datesend : DATETIME
+  sender : UUID
+}
+
+class pack {
+  id : UUID
+  name : VARCHAR
+  namechef : VARCHAR
+}
+
+class bm {
+  id : UUID
+  name : VARCHAR
+  bonusmalus : BOOLEAN
+  numberturns : INT
+  numberattack : INT
+  concentration : INT
+  nextturn : DATETIME
+  permanent : BOOLEAN
+  original : BOOLEAN
+  psychicresist : INT
+  psychicmast : INT
+  physicalresist : INT
+  physicalmast : INT
+  magicresist : INT
+  magicmast : INT
+  obscureresist : INT
+  obscuremast : INT
+  socialrest : INT
+  socialmast : INT
+  technologyresist : INT
+  technologymast : INT
+  perception : INT
+  regeneration : INT
+  damage : INT
+  attack : INT
+  dogde : INT
+  hunger : INT
+  hitpointsmax : INT
+  hitpoints : INT
+  actionpoint : INT
+  armphy : INT
+  armmag : INT
+}
+
+class tribe {
+  id : UUID
+  name : VARCHAR
+  datecreation : DATETIME
+  description : TEXT
+  blazon : VARCHAR
+}
+
+class alert {
+  id : UUID
+  name : VARCHAR
+  description : VARCHAR
+}
+
+class credential {
+  id : UUID
+  password : VARCHAR
+  mainpassword : BOOLEAN
+  begindate : DATETIME
+  enddate : DATETIME
+  secretauth : VARCHAR
+  player : UUID
+}
+
+class soul {
+  id : UUID
+  xp : INT
+  ip : INT
+  iptotal : INT
+  level : INT
+  trollcanines : INT
+  nextlevelcount : INT
+  startingbonusstat : ENUM
+  player : UUID
+}
+
+class talenttype {
+  code : VARCHAR
+  name : VARCHAR
+}
+
+class affinity {
+  code : VARCHAR
+  name : VARCHAR
+}
+
+class prerequisited {
+  code : VARCHAR
+  name : VARCHAR
+  level : INT
+}
+
+class subfamilyobject {
+  id : UUID
+  nom : VARCHAR
+}
+
+class levelseeinvisible {
+  code : VARCHAR
+  name : VARCHAR
+  description : VARCHAR
+}
+
+class servicetype {
+  id : UUID
+  name : VARCHAR
+  costmin : INT
+  costmax : INT
+  basescript : VARCHAR
+  costinstall BIGINT
+}
+
+class service {
+  id : UUID
+  name : VARCHAR
+  cost : INT
+  script : VARCHAR
+  status : BOOLEAN
+  size : INT
+  servicetype : UUID
+}
+
+class familybuilding {
+  id : UUID
+  nom : VARCHAR
+}
+
+class cockroachtype {
+  id : UUID
+  name : VARCHAR
+  obtainlevelup : BOOLEAN
+  effect : VARCHAR
+}
+
+class gameworldtype {
+  id : UUID
+  name : VARCHAR
+  xsuperiormin : INT
+  xsuperiormax : INT
+  xinferiormin : INT
+  xinferiormax : INT
+  ysuperiormin : INT
+  ysuperiormax : INT
+  yinferiormax : INT
+  yinferiormin : INT
+  nsuperiormax : INT
+  nsuperiormin : INT
+  ninferiormax : INT
+  ninferiormin : INT
+  matter : VARCHAR
+  architecture : VARCHAR
+  description : TEXT
+  script : VARCHAR
+  hitpoints : INT
+  psychicresistmin : INT
+  psychicresistmax : INT
+  physicalresistmin : INT
+  physicalresistmax : INT
+  magicresistmin : INT
+  magicresistmax : INT
+  obscureresistmax : INT
+  obscureresistmin : INT
+  technologyresistmin : INT
+  technologyresistmax : INT
+  socialresistmax : INT
+  socialresistmin : INT
+  arm : INT
+  gender : BOOLEAN
+  taxesorigine : INT
+  instanceupgrade : UUID
+}
+
+class vacancy {
+  id : UUID
+  datestart : DATETIME
+  dateend : DATETIME
+  player : UUID
+}
+
+class zodiac {
+  id : UUID
+  zodiacsign : VARCHAR
+  effect : VARCHAR
+}
+
+class month_ {
+  id : UUID
+  name : VARCHAR
+  numberday : INT
+  order_ : INT
+}
+
+class news {
+  id : UUID
+  tittle : VARCHAR
+  message : TEXT
+  datestart DATE
+  dateend DATE
+  author : UUID
+}
+
+class featfamily {
+  id : UUID
+  nom : VARCHAR
+}
+
+class recipe {
+  id : UUID
+  name : VARCHAR
+  prestige : INT
+  height : INT
+  author : VARCHAR
+}
+
+class distinctions {
+  id : UUID
+  title : VARCHAR
+  description : VARCHAR
+  duree : INT
+  size : INT
+  location : enum
+}
+
+class talentinventory {
+  id : UUID
+  script : VARCHAR
+  actionpoint : INT
+}
+
+class areatype {
+  id : UUID
+  name : VARCHAR
+  AreaEffectTypes : enum
+  xsuperiormin : INT
+  xsuperiormax : INT
+  xinferiormin : INT
+  xinferiormax : INT
+  ysuperiormin : INT
+  ysuperiormax : INT
+  yinferiormin : INT
+  yinferiormax : INT
+  nsuperiormin : INT
+  nsuperiormax : INT
+  ninferiormin : INT
+  ninferiormax : INT
+  duration : DATETIME
+  resistance : INT
+  hitpoints : INT
+  arm : INT
+}
+
+class diets {
+  id : UUID
+  name : VARCHAR
+}
+
+class etatdumarchepast {
+  id : UUID
+  price DECIMAL
+  update_ : DATETIME
+}
+
+class approval {
+  id : UUID
+  name : enum
+}
+
+class familyobject_1 {
+  id : UUID
+  nom : VARCHAR
+  id_1 : UUID
+}
+
+class talent {
+  id : UUID
+  name : VARCHAR
+  ruledescription : VARCHAR
+  rpdescription : VARCHAR
+  script : VARCHAR
+  actionpointcost : INT
+  level : INT
+  componentcount : INT
+  target : BOOLEAN
+  talentypecode : VARCHAR
+  affinitycode : VARCHAR
+}
+
+class feat {
+  id : UUID
+  name : VARCHAR
+  level : INT
+  ip : INT
+  rankmax : enum
+  description : VARCHAR
+  script : VARCHAR
+  family : UUID
+}
+
+class gameworld {
+  id : UUID
+  name : VARCHAR
+  xsuperior : INT
+  xinferior : INT
+  ysuperior : INT
+  yinferior : INT
+  nsuperior : INT
+  ninferior : INT
+  architecture : VARCHAR
+  script : VARCHAR
+  hitpoints : INT
+  description : TEXT
+  physicalresist : INT
+  psychicresist : INT
+  obscureresist : INT
+  technologyresist : INT
+  magicresist : INT
+  sociaresist : INT
+  arm : INT
+  taxes : INT
+  update_ : DATETIME
+  instancetype : UUID
+  proprietaryentity : UUID
+  proprietaryclan : UUID
+  proprietarytribe : UUID
+}
+
+class specie {
+  id : UUID
+  name : VARCHAR
+  attackmin : INT
+  attackmax : INT
+  damagemin : INT
+  damagemax : INT
+  dogdemin : INT
+  dogdemax : INT
+  regenerationmin : INT
+  regenerationmax : INT
+  perceptionmin : INT
+  perceptionmax : INT
+  hitpointsmin : INT
+  hitpointsmax : INT
+  turndurationmin : BOOLEAN
+  turndurationmax : BOOLEAN
+  leveladjust : INT
+  psychicmastmin : INT
+  psychicmastmax : INT
+  psychicresistmax : INT
+  psychicresistmin : INT
+  physicalresistmin : INT
+  physicalresistmax : INT
+  physicalmastmin : INT
+  physicalmastmax : INT
+  magicresistmin : INT
+  magicresistmax : INT
+  magicmastmin : INT
+  magicmastmax : INT
+  obscureresistmin : INT
+  obscureresistmax : INT
+  obscuremastmin : INT
+  obscuremastmax : INT
+  technologyresistmin : INT
+  technologyresistmax : INT
+  technologymastmax : INT
+  technologymastmin : INT
+  socialresistmin : INT
+  socialresistmax : INT
+  socialmastmin : INT
+  socialmastmax : INT
+  nbapmovemin : INT
+  nbapmovemax : INT
+  nbattackmin : INT
+  nbattackmax : INT
+  papowersecond : INT
+  nbapattackmin : INT
+  nbapattackmax : INT
+  rangex : INT
+  rangey : INT
+  armphymin : INT
+  armphymax : INT
+  armmagmin : INT
+  armmagmax : INT
+  deadpower : enum
+  attpower : enum
+  hitpower : enum
+  fleepower : enum
+  specialpower : enum
+  secondpower : enum
+  sizemin : INT
+  sizemax : INT
+  flight : BOOLEAN
+  wallpass : INT
+  nmin : INT
+  nmax : INT
+  needsfood : BOOLEAN
+  corpsedeath : BOOLEAN
+  collector : BOOLEAN
+  gender : BOOLEAN
+  devapproval : BOOLEAN
+  devnote : CHAR
+  levelseeinvisible : VARCHAR
+  familly : UUID
+}
+
+class buildingtype {
+  id : UUID
+  name : VARCHAR
+  costmin : VARCHAR
+  gender : BOOLEAN
+  costinstall : INT
+  costupkeep : INT
+  hitpoints : INT
+  arm : INT
+  script : VARCHAR
+  capacity : INT
+  size : INT
+  visibility : BOOLEAN
+  buildupgrade : UUID
+  servicetype : UUID
+  family : UUID
+}
+
+class cockroach {
+  id : UUID
+  name : VARCHAR
+  age : INT
+  status : INT
+  souls : UUID
+  cockroachtype : UUID
+}
+
+class objecttype {
+  id : UUID
+  name : VARCHAR
+  weightmin : INT
+  weightmax : INT
+  qualitymin : enum
+  qualitymax : enum
+  deterioration : enum
+  armphymin : INT
+  armphymax : INT
+  armmagmin : INT
+  armmagmax : INT
+  attackmin : INT
+  attackmax : INT
+  damagemin : INT
+  damagemax : INT
+  dogdemin : INT
+  dogdemax : INT
+  regenerationmin : INT
+  regenerationmax : INT
+  perceptionmin : INT
+  perceptionmax : INT
+  hitpointsmin : INT
+  hitpointsmax : INT
+  script : VARCHAR
+  droppable : BOOLEAN
+  psychicmastmin : INT
+  psychicmastmax : INT
+  psychicresistmin : INT
+  psychicresistmax : INT
+  physicalresistmin : INT
+  physicalresistmax : INT
+  physicalmastmin : INT
+  physicalmastmax : INT
+  magicresistmin : INT
+  magicresistmax : INT
+  magicmastmin : INT
+  magicmastmax : INT
+  obscureresistmin : INT
+  obscureresistmax : INT
+  obscuremastmin : INT
+  obscuremastmax : INT
+  technologyresistmin : INT
+  technologyresistmax : INT
+  technologymastmin : INT
+  technologymastmax : INT
+  socialresistmin : INT
+  socialresistmax : INT
+  socialmastmin : INT
+  socialmastmax : INT
+  description : VARCHAR
+  levelmin : INT
+  levelmax : INT
+  pricemin : INT
+  pricemax : INT
+  sizemin : INT
+  sizemax : INT
+  cursed : BOOLEAN
+  turnduration : INT
+  chargemin : INT
+  chargemax : INT
+  gender : BOOLEAN
+  satiety : INT
+  recipe : UUID
+  subfamily : UUID
+  areatype : UUID
+}
+
+class resourcenodetype {
+  id : UUID
+  name : VARCHAR
+  extractmin : INT
+  extractmax : INT
+  objecttype : UUID
+}
+
+class location{
+  target : UUID
+  actor : UUID
+  x : INT
+  y : VARCHAR
+  n : INT
+  descriptionpassage : TEXT
+}
+
+class weather {
+  id : UUID
+  xmin : INT
+  xmax : INT
+  ymin : INT
+  ymax : INT
+  validday DATE
+  rain : INT
+  wind : INT
+  heat : INT
+  instance : UUID
+}
+
+class announcement {
+  id : UUID
+  text : TEXT
+  id_1 : UUID
+}
+
+class knows{
+  soul : UUID
+  talent : UUID
+  percent : INT
+  rank_ : enum
+  useinturn : BOOLEAN
+}
+
+class component {
+  id : UUID
+  namemonsterpart : VARCHAR
+  gender : BOOLEAN
+  objecttype : UUID
+  specie : UUID
+}
+
+class day_ {
+  id : UUID
+  numberday : INT
+  year_ : INT
+  script : VARCHAR
+  plant : UUID
+  month_ : UUID
+  zodiac : UUID
+}
+
+class matter {
+  id : UUID
+  name : VARCHAR
+  objecttype : UUID
+}
+
+class entity {
+  id : UUID
+  name : VARCHAR
+  gender : INT
+  description : VARCHAR
+  imageavatar : VARCHAR
+  datecreation : DATETIME
+  datelastdeath : DATETIME
+  turnduration : TIME
+  nextturn : DATETIME
+  actionpoint : INT
+  hitpoints : INT
+  hitpointsmax : INT
+  hunger : INT
+  kills : INT
+  pvpkills : INT
+  turnattckdomage : INT
+  deathcounts : INT
+  dogde : INT
+  attack : INT
+  damagephy : INT
+  damagemag : INT
+  regeneration : INT
+  perception : INT
+  active : BOOLEAN
+  psychicresist : INT
+  psychicmast : INT
+  physicalresist : INT
+  physicalmast : INT
+  magicresist : INT
+  magicmast : INT
+  obscureresist : INT
+  obscuremast : INT
+  socialresist : INT
+  socialmast : INT
+  technologyresist : INT
+  technologymast : INT
+  x : INT
+  y : INT
+  n : INT
+  pvp : BOOLEAN
+  nbapmove : INT
+  nbapattack : INT
+  nbattack : INT
+  update_ : DATETIME
+  saveuniquemob : BOOLEAN
+  rangex : INT
+  rangey : INT
+  size : INT
+  armphy : INT
+  armmag : INT
+  upgradeturnduration : INT
+  upgradeattack : INT
+  upgradedodge : INT
+  upgradeperception : INT
+  upgradedamege : INT
+  upgradehitpoints : INT
+  upgraderegeneration : INT
+  upgradearmphy : INT
+  upgradearmmag : INT
+  status : enum
+  popularity : INT
+  fame : INT
+  reputation : INT
+  profession : UUID
+  service : UUID
+  diets : UUID
+  talentinventory : UUID
+  birthday : UUID
+  locationinstance : UUID
+  master : UUID
+  levelseeinvisible : VARCHAR
+  soul : UUID
+  specie : UUID
+  pack : UUID
+}
+
+class quest {
+  id : UUID
+  name : VARCHAR
+  prioritylevel : INT
+  description : TEXT
+  teamsizemax : INT
+  script : VARCHAR
+  condition_ : VARCHAR
+  questtype : enum
+  customer : UUID
+}
+
+class object {
+  id : UUID
+  realname : VARCHAR
+  renamename : VARCHAR
+  attack : INT
+  dogde : INT
+  damage : INT
+  armmag : INT
+  armphy : INT
+  perception : INT
+  regeneration : INT
+  quality : enum
+  weighttime : INT
+  actionpoint : INT
+  psychicmast : INT
+  physicalresist : INT
+  psychicresist : INT
+  physicalmast : INT
+  magicresist : INT
+  magicmast : INT
+  obscureresist : INT
+  obscuremast : INT
+  sociaresist : INT
+  socialmast : INT
+  technologyresist : INT
+  technologymast : INT
+  update_ : DATETIME
+  bury : BOOLEAN
+  rarity : VARCHAR
+  hitpoints : INT
+  description : VARCHAR
+  droppable : BOOLEAN
+  price : INT
+  size : INT
+  level : INT
+  cursed : BOOLEAN
+  turneffect : INT
+  charge : INT
+  deterioration : enum
+  visibility : BOOLEAN
+  areaeffect : INT
+  satiety : INT
+  objecttype : UUID
+}
+
+class religion {
+  id : UUID
+  name : VARCHAR
+  text : TEXT
+  levelrequire : INT
+  pietygod : INT
+  god : UUID
+}
+
+class queststep {
+  id : UUID
+  description : VARCHAR
+  step : INT
+  finalstep : BOOLEAN
+  typestep : INT
+  difficulty : INT
+  arg1 : VARCHAR
+  arg2 : VARCHAR
+  arg3 : VARCHAR
+  arg4 : VARCHAR
+  arg5 : VARCHAR
+  quest : UUID
+}
+
+class representation {
+  id : UUID
+  isillusion : BOOLEAN
+  expirationdate : DATETIME
+  x : INT
+  y : INT
+  n : INT
+  entity : UUID
+}
+
+class resourcenode {
+  id : UUID
+  name : VARCHAR
+  x : INT
+  y : VARCHAR
+  n : INT
+  extract_ : INT
+  instance : UUID
+  ressourcenodetype : UUID
+}
+
+class event {
+  id : UUID
+  date_ : DATETIME
+  action : enum
+  description : VARCHAR
+  visibility : BOOLEAN
+  targetentity : UUID
+  targetobject : UUID
+  actorentity : UUID
+  actorobject : UUID
+}
+
+class building {
+  id : UUID
+  name : VARCHAR
+  gender : BOOLEAN
+  costupkeep : INT
+  hitpoints : INT
+  arm : INT
+  script : VARCHAR
+  capacity : INT
+  size : INT
+  x : INT
+  n : INT
+  y : INT
+  visibility : BOOLEAN
+  bank BIGINT
+  proprietaryentity : UUID
+  buildingtype : UUID
+  instance : UUID
+}
+
+class adherent_of{
+  souls : UUID
+  religion : UUID
+  rank_ : enu
+  piety : INT
+}
+
+class enchantrequire {
+  id : UUID
+  service : UUID
+  entity : UUID
+  object : UUID
+}
+
+class ai {
+  Id : UUID
+  status : enum
+  behavior : INT
+  lastaction : INT
+  statusai : enum
+  nmin : INT
+  nmax : INT
+  following : BOOLEAN
+  vendor : BOOLEAN
+  den : UUID
+  entity : UUID
+}
+
+class diplomacy {
+  id : UUID
+  title : VARCHAR
+  visibilitylevel : ENUM
+  relationshipstatus : ENUM
+  update_ : DATETIME
+  targetclan : UUID
+  actorclan : UUID
+  targetentity : UUID
+}
+
+class reward {
+  id : UUID
+  script : VARCHAR
+  arg1 : VARCHAR
+  arg2 : VARCHAR
+  arg3 : VARCHAR
+  arg4 : VARCHAR
+  rewardtype : UUID
+  quest : UUID
+}
+
+class order_ {
+  id : UUID
+  ordertype : enum
+  option : VARCHAR
+  levelpriority : INT
+  pnj : UUID
+}
+
+class declarationlove{
+  applicant : UUID
+  ConfessionTargets : UUID
+  text : TEXT
+  dateconfession : DATETIME
+  response : enum
+}
+
+class area {
+  id : UUID
+  name : VARCHAR
+  AreaEffectTypes : enum
+  xsuperior : INT
+  xinferior : INT
+  ysuperior : INT
+  yinferior : INT
+  nsuperior : INT
+  ninferior : INT
+  duration : DATETIME
+  resistance : INT
+  hitpoints : INT
+  arm : INT
+  instance : UUID
+  creator : UUID
+  areatype : UUID
+}
+
+class transaction{
+  customer : UUID
+  vendor : UUID
+  pricevendor : INT
+  pricecustomer : INT
+  validationvendor : BOOLEAN
+  validationcustomer : BOOLEAN
+  id : UUID
+}
+
+class etatdumarchepresent {
+  id : UUID
+  price DECIMAL
+  update_ : DATETIME
+  matter : UUID
+  object : UUID
+  id_1 : UUID
+}
+
+class prayer {
+  id : UUID
+  percent : INT
+  title : VARCHAR
+  text : TEXT
+  pietymin : INT
+  levelrequire : INT
+  effect : VARCHAR
+  religion : UUID
+}
+
+class enchant {
+  id : UUID
+  name : VARCHAR
+  attack : INT
+  dogde : INT
+  damage : INT
+  armmag : INT
+  armphy : INT
+  regeneration : INT
+  perception : INT
+  psychicmast : INT
+  physicalresist : INT
+  psychicresist : INT
+  physicalmast : INT
+  magicresist : INT
+  magicmast : INT
+  obscureresist : INT
+  obscuremast : INT
+  socialresist : INT
+  socialmast : INT
+  technologyresist : INT
+  technologymast : INT
+  weighttime : INT
+  droprate : INT
+  id_1 : UUID
+}
+
+class objectbelong{
+  proprietary : UUID
+  object : UUID
+  quantity : VARCHAR
+  identify : BOOLEAN
+  isequipped : BOOLEAN
+  locationequipment : INT
+}
+
+class receive{
+  player : UUID
+  mail : UUID
+}
+
+class playeralert{
+  player : UUID
+  alert : UUID
+  etat : BOOLEAN
+}
+
+class mode{
+  credential : UUID
+  soul : UUID
+  code : VARCHAR
+  name : VARCHAR
+}
+
+class talentprerequisited{
+  talent : UUID
+  code : VARCHAR
+}
+
+class clanbelong{
+  entity : UUID
+  clan : UUID
+  jobtitlem : VARCHAR
+  jobtitlef : VARCHAR
+  datejoin : DATETIME
+}
+
+class entitybm{
+  entity : UUID
+  bonus : UUID
+}
+
+class tribebelong{
+  entity : UUID
+  tribe : UUID
+  jobtitle : VARCHAR
+  datejoin : DATETIME
+}
+
+class positionobject{
+  instance : UUID
+  object : UUID
+  x : INT
+  y : INT
+  n : INT
+  quantity : INT
+}
+
+class costbuild{
+  buildingtype : UUID
+  objecttype : UUID
+  quantity : INT
+}
+
+class affinityforprofessions{
+  profession : UUID
+  affinity : VARCHAR
+}
+
+class prerequisitedprofession{
+  profession : UUID
+  prerequisited : VARCHAR
+}
+
+class entityfeat{
+  feat : UUID
+  soul : UUID
+  rank_ : enum
+  specialization : VARCHAR
+}
+
+class recipeforcraft{
+  objecttype : UUID
+  recipe : UUID
+  quantity : INT
+  qualityminrequire : enum
+  levelmin : INT
+}
+
+class servicebuilding{
+  service : UUID
+  building : UUID
+}
+
+class contain{
+  object : UUID
+  building : UUID
+  quantity : INT
+}
+
+class featprerequisited{
+  feat : UUID
+  prerequisited : VARCHAR
+}
+
+class scribe{
+  talent : UUID
+  soul : UUID
+  component : UUID
+  location : VARCHAR
+}
+
+class necessarytolearn{
+  soul : UUID
+  talent : UUID
+  component : UUID
+  quantity : INT
+}
+
+class composantenchantrequire{
+  enchant : UUID
+  component : UUID
+  qualityminrequire : enum
+}
+
+class aggrolevel{
+  target : UUID
+  actor : UUID
+  level : INT
+  update_ : DATETIME
+  comment : CHAR
+}
+
+class maketask{
+  queststep : UUID
+  souls : UUID
+}
+
+class itemreward{
+  object : UUID
+  reward : UUID
+  quantity : INT
+}
+
+class receivenews{
+  player : UUID
+  news : UUID
+}
+
+class objecttypematter{
+  objecttype : UUID
+  matter : UUID
+  quantity : INT
+}
+
+class isenchanted{
+  object : UUID
+  enchant : UUID
+}
+
+class entitydistinctions{
+  entity : UUID
+  distinctions : UUID
+  dateobtain : DATETIME
+}
+
+class talentininventory{
+  talent : UUID
+  talentinventory : UUID
+}
+
+class dietsobjecttype{
+  objecttype : UUID
+  diets : UUID
+}
+
+class responseannoucement {
+  id : UUID
+  id_1 : UUID
+  name : VARCHAR
+}
+
+clan "1" -- "*" pledgeallegiance
+soul "1" -- "*" knows : knows
+talent "1" -- "*" knows : knows
+player "1" -- "*" clan : pledgeallegiance
+player "1" -- "*" receive : sender
+mail "1" -- "*" receive : infosender
+player "1" -- "*" mail : author
+player "1" -- "*" credential : credential
+player "1" -- "*" alert : alert
+player "1" -- "*" responseannoucement : id_1
+annoucement "1" -- "*" responseannoucement : id_1
+annoucement "1" -- "*" approval : approval
+player "1" -- "*" news : news
+player "1" -- "*" talentinventory : talentinventory
+talent "1" -- "*" talentinventory : talentinventory
+
+entity "1" -- "*" soul : proprietaryentity
+entity "1" -- "*" entity : master
+entity "1" -- "*" clan : targetclan
+entity "1" -- "*" tribe : tribe
+entity "1" -- "*" profession : profession
+entity "1" -- "*" religion : religion
+entity "1" -- "*" service : service
+entity "1" -- "*" object : object
+entity "1" -- "*" quest : quest
+aggrolevel "1" -- "*" entity : targetentity
+aggrolevel "1" -- "*" entity : actor
+transaction "1" -- "*" entity : customer
+transaction "1" -- "*" entity : vendor
+declarationlove "1" -- "*" entity : applicant
+declarationlove "1" -- "*" entity : ConfessionTargets
+area "1" -- "*" entity : creator
+area "1" -- "*" areatype : areatype
+entity "1" -- "*" enchantRequire : proprietary
+entity "1" -- "*" entitybm : bonus
+bm "1" -- "*" entitybm : bonus
+
+object "1" -- "*" objecttype : objecttype
+object "1" -- "*" component : component
+object "1" -- "*" reward : reward
+object "1" -- "*" enchant : enchant
+object "1" -- "*" matter : matter
+
+building "1" -- "*" buildingtype : buildingtype
+contain "1" -- "*" building : object
+contain "1" -- "*" object : object
+
+questStep "1" -- "*" quest : quest
+
+component "1" -- "*" enchantrequire : enchant
+
+entity "1" -- "*" pack : pack
+profession "1" -- "*" object : profession_object
+feat "1" -- "*" soul : soul
+talent "1" -- "*" affinity : affinitycode
+talent "1" -- "*" talenttype : talenttype
+talent "1" -- "*" prerequisited : talenttype
+prerequisited "1" -- "*" profession : profession
+
+gameworld "1" -- "*" gameworldtype : gameworldtype
+
+
+@enduml
+
+UNIQUE(proprietaryclan)
+UNIQUE(proprietarytribe)
+UNIQUE(actor)
+UNIQUE(entity)
+UNIQUE(id_1)
+
+FOREIGN KEY(pledgeallegiance) REFERENCES Clan(id)
+FOREIGN KEY(sender) REFERENCES player(id)
+FOREIGN KEY(player) REFERENCES player(id)
+FOREIGN KEY(player) REFERENCES player(id)
+FOREIGN KEY(servicetype) REFERENCES servicetype(id)
+FOREIGN KEY(instanceupgrade) REFERENCES gameworldtype(id)
+FOREIGN KEY(player) REFERENCES player(id)
+FOREIGN KEY(author) REFERENCES player(id)
+FOREIGN KEY(id_1) REFERENCES subfamilyobject(id)
+FOREIGN KEY(talentypecode) REFERENCES talenttype(code)
+FOREIGN KEY(affinitycode) REFERENCES affinity(code)
+FOREIGN KEY(family) REFERENCES featfamily(id)
+FOREIGN KEY(instancetype) REFERENCES gameworldtype(id)
+FOREIGN KEY(proprietaryentity) REFERENCES soul(id)
+FOREIGN KEY(proprietaryclan) REFERENCES Clan(id)
+FOREIGN KEY(proprietarytribe) REFERENCES tribe(id)
+FOREIGN KEY(levelseeinvisible) REFERENCES levelseeinvisible(code)
+FOREIGN KEY(familly) REFERENCES family(id)
+FOREIGN KEY(buildupgrade) REFERENCES buildingtype(id)
+FOREIGN KEY(servicetype) REFERENCES servicetype(id)
+FOREIGN KEY(family) REFERENCES familybuilding(id)
+FOREIGN KEY(souls) REFERENCES soul(id)
+FOREIGN KEY(cockroachtype) REFERENCES cockroachtype(id)
+FOREIGN KEY(recipe) REFERENCES recipe(id)
+FOREIGN KEY(subfamily) REFERENCES subfamilyobject(id)
+FOREIGN KEY(areatype) REFERENCES areatype(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(target) REFERENCES gameworld(id)
+FOREIGN KEY(actor) REFERENCES gameworld(id)
+FOREIGN KEY(instance) REFERENCES gameworld(id)
+FOREIGN KEY(id_1) REFERENCES approval(id)
+FOREIGN KEY(soul) REFERENCES soul(id)
+FOREIGN KEY(talent) REFERENCES talent(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(specie) REFERENCES specie(id)
+FOREIGN KEY(plant) REFERENCES objecttype(id)
+FOREIGN KEY(month_) REFERENCES month_(id)
+FOREIGN KEY(zodiac) REFERENCES zodiac(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(profession) REFERENCES profession(id)
+FOREIGN KEY(service) REFERENCES service(id)
+FOREIGN KEY(diets) REFERENCES diets(id)
+FOREIGN KEY(talentinventory) REFERENCES talentinventory(id)
+FOREIGN KEY(birthday) REFERENCES day_(id)
+FOREIGN KEY(locationinstance) REFERENCES gameworld(id)
+FOREIGN KEY(master) REFERENCES entity(id)
+FOREIGN KEY(levelseeinvisible) REFERENCES levelseeinvisible(code)
+FOREIGN KEY(soul) REFERENCES soul(id)
+FOREIGN KEY(specie) REFERENCES specie(id)
+FOREIGN KEY(pack) REFERENCES pack(id)
+FOREIGN KEY(customer) REFERENCES entity(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(god) REFERENCES entity(id)
+FOREIGN KEY(quest) REFERENCES quest(id)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(instance) REFERENCES gameworld(id)
+FOREIGN KEY(ressourcenodetype) REFERENCES resourcenodetype(id)
+FOREIGN KEY(targetentity) REFERENCES entity(id)
+FOREIGN KEY(targetobject) REFERENCES object(id)
+FOREIGN KEY(actorentity) REFERENCES entity(id)
+FOREIGN KEY(actorobject) REFERENCES object(id)
+FOREIGN KEY(proprietaryentity) REFERENCES entity(id)
+FOREIGN KEY(buildingtype) REFERENCES buildingtype(id)
+FOREIGN KEY(instance) REFERENCES gameworld(id)
+FOREIGN KEY(souls) REFERENCES soul(id)
+FOREIGN KEY(religion) REFERENCES religion(id)
+FOREIGN KEY(service) REFERENCES service(id)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(den) REFERENCES gameworld(id)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(targetclan) REFERENCES Clan(id)
+FOREIGN KEY(actorclan) REFERENCES Clan(id)
+FOREIGN KEY(targetentity) REFERENCES entity(id)
+FOREIGN KEY(rewardtype) REFERENCES objecttype(id)
+FOREIGN KEY(quest) REFERENCES quest(id)
+FOREIGN KEY(pnj) REFERENCES entity(id)
+FOREIGN KEY(applicant) REFERENCES entity(id)
+FOREIGN KEY(ConfessionTargets) REFERENCES entity(id)
+FOREIGN KEY(instance) REFERENCES gameworld(id)
+FOREIGN KEY(creator) REFERENCES entity(id)
+FOREIGN KEY(areatype) REFERENCES areatype(id)
+FOREIGN KEY(customer) REFERENCES entity(id)
+FOREIGN KEY(vendor) REFERENCES entity(id)
+FOREIGN KEY(id) REFERENCES object(id)
+FOREIGN KEY(matter) REFERENCES matter(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(id_1) REFERENCES etatdumarchepast(id)
+FOREIGN KEY(religion) REFERENCES religion(id)
+FOREIGN KEY(id_1) REFERENCES enchantrequire(id)
+FOREIGN KEY(proprietary) REFERENCES entity(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(player) REFERENCES player(id)
+FOREIGN KEY(mail) REFERENCES mail(id)
+FOREIGN KEY(player) REFERENCES player(id)
+FOREIGN KEY(alert) REFERENCES alert(id)
+FOREIGN KEY(credential) REFERENCES credential(id)
+FOREIGN KEY(soul) REFERENCES soul(id)
+FOREIGN KEY(talent) REFERENCES talent(id)
+FOREIGN KEY(code) REFERENCES prerequisited(code)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(clan) REFERENCES Clan(id)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(bonus) REFERENCES BM(id)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(tribe) REFERENCES tribe(id)
+FOREIGN KEY(instance) REFERENCES gameworld(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(buildingtype) REFERENCES buildingtype(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(profession) REFERENCES profession(id)
+FOREIGN KEY(affinity) REFERENCES affinity(code)
+FOREIGN KEY(profession) REFERENCES profession(id)
+FOREIGN KEY(prerequisited) REFERENCES prerequisited(code)
+FOREIGN KEY(feat) REFERENCES feat(id)
+FOREIGN KEY(soul) REFERENCES soul(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(recipe) REFERENCES recipe(id)
+FOREIGN KEY(service) REFERENCES service(id)
+FOREIGN KEY(building) REFERENCES building(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(building) REFERENCES building(id)
+FOREIGN KEY(feat) REFERENCES feat(id)
+FOREIGN KEY(prerequisited) REFERENCES prerequisited(code)
+FOREIGN KEY(talent) REFERENCES talent(id)
+FOREIGN KEY(soul) REFERENCES soul(id)
+FOREIGN KEY(soul, talent) REFERENCES knows(soul, talent)
+FOREIGN KEY(component) REFERENCES component(id)
+FOREIGN KEY(enchant) REFERENCES enchantrequire(id)
+FOREIGN KEY(component) REFERENCES component(id)
+FOREIGN KEY(target) REFERENCES entity(id)
+FOREIGN KEY(actor) REFERENCES entity(id)
+FOREIGN KEY(queststep) REFERENCES queststep(id)
+FOREIGN KEY(souls) REFERENCES soul(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(reward) REFERENCES reward(id)
+FOREIGN KEY(player) REFERENCES player(id)
+FOREIGN KEY(news) REFERENCES news(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(matter) REFERENCES matter(id)
+FOREIGN KEY(object) REFERENCES object(id)
+FOREIGN KEY(enchant) REFERENCES enchant(id)
+FOREIGN KEY(entity) REFERENCES entity(id)
+FOREIGN KEY(distinctions) REFERENCES distinctions(id)
+FOREIGN KEY(talent) REFERENCES talent(id)
+FOREIGN KEY(talentinventory) REFERENCES talentinventory(id)
+FOREIGN KEY(objecttype) REFERENCES objecttype(id)
+FOREIGN KEY(diets) REFERENCES diets(id)
+FOREIGN KEY(id) REFERENCES player(id)
+FOREIGN KEY(id_1) REFERENCES announcement(id)

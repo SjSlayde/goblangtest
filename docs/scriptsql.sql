@@ -1,4 +1,8 @@
-CREATE TABLE players(
+drop database if exists goblandv2;
+create database goblandv2;
+use goblandv2;
+
+CREATE TABLE player(
    id UUID,
    email VARCHAR(255)  NOT NULL,
    maxcharacter INT NOT NULL,
@@ -13,7 +17,7 @@ CREATE TABLE family(
    PRIMARY KEY(id)
 );
 
-CREATE TABLE professions(
+CREATE TABLE profession(
    id UUID,
    code VARCHAR(255)  NOT NULL,
    name VARCHAR(255)  NOT NULL,
@@ -32,14 +36,14 @@ CREATE TABLE Clan(
    FOREIGN KEY(pledgeallegiance) REFERENCES Clan(id)
 );
 
-CREATE TABLE mails(
+CREATE TABLE mail(
    id UUID,
    title VARCHAR(255) ,
    text TEXT NOT NULL,
    datesend DATETIME NOT NULL,
    sender UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(sender) REFERENCES players(id)
+   FOREIGN KEY(sender) REFERENCES player(id)
 );
 
 CREATE TABLE pack(
@@ -59,17 +63,17 @@ CREATE TABLE BM(
    nextturn DATETIME NOT NULL,
    permanent BOOLEAN NOT NULL,
    original BOOLEAN NOT NULL,
-   psychicresit INT NOT NULL,
+   psychicresist INT NOT NULL,
    psychicmast INT NOT NULL,
-   physicalresit INT NOT NULL,
+   physicalresist INT NOT NULL,
    physicalmast INT NOT NULL,
-   magicrest INT NOT NULL,
+   magicresist INT NOT NULL,
    magicmast INT NOT NULL,
-   obscurerest INT NOT NULL,
+   obscureresist INT NOT NULL,
    obscuremast INT NOT NULL,
    socialrest INT NOT NULL,
    socialmast INT NOT NULL,
-   technologyrest INT NOT NULL,
+   technologyresist INT NOT NULL,
    technologymast INT NOT NULL,
    perception INT NOT NULL,
    regeneration INT NOT NULL,
@@ -94,26 +98,27 @@ CREATE TABLE tribe(
    PRIMARY KEY(id)
 );
 
-CREATE TABLE alerts(
+CREATE TABLE alert(
    id UUID,
    name VARCHAR(50)  NOT NULL,
    description VARCHAR(50)  NOT NULL,
    PRIMARY KEY(id)
 );
 
-CREATE TABLE credentials(
+CREATE TABLE credential(
    id UUID,
    password VARCHAR(255)  NOT NULL,
    mainpassword BOOLEAN NOT NULL DEFAULT FALSE,
    begindate DATETIME NOT NULL,
    enddate DATETIME NOT NULL,
+   secretauth VARCHAR(255)  NOT NULL,
    player UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(player) REFERENCES players(id)
+   FOREIGN KEY(player) REFERENCES player(id)
 );
 
-CREATE TABLE souls(
-   id TEXT,
+CREATE TABLE soul(
+   id UUID,
    xp INT NOT NULL,
    ip INT NOT NULL,
    iptotal INT NOT NULL,
@@ -123,7 +128,7 @@ CREATE TABLE souls(
    startingbonusstat ENUM('attack', 'magic', 'dodge', 'damage', 'regeneration', 'perception') NOT NULL,
    player UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(player) REFERENCES players(id)
+   FOREIGN KEY(player) REFERENCES player(id)
 );
 
 CREATE TABLE talenttype(
@@ -145,7 +150,7 @@ CREATE TABLE prerequisited(
    PRIMARY KEY(code)
 );
 
-CREATE TABLE familyobject(
+CREATE TABLE subfamilyobject(
    id UUID,
    nom VARCHAR(50) ,
    PRIMARY KEY(id)
@@ -190,19 +195,11 @@ CREATE TABLE cockroachtype(
    id UUID,
    name VARCHAR(255)  NOT NULL,
    obtainlevelup BOOLEAN NOT NULL,
-   bonus UUID NOT NULL,
-   PRIMARY KEY(id),
-   FOREIGN KEY(bonus) REFERENCES BM(id)
-);
-
-CREATE TABLE announcement(
-   id UUID,
-   text TEXT NOT NULL,
-   approval BOOLEAN NOT NULL,
+   effect VARCHAR(255)  NOT NULL,
    PRIMARY KEY(id)
 );
 
-CREATE TABLE instancetype(
+CREATE TABLE gameworldtype(
    id UUID,
    name VARCHAR(255)  NOT NULL,
    xsuperiormin INT NOT NULL,
@@ -222,13 +219,24 @@ CREATE TABLE instancetype(
    description TEXT NOT NULL,
    script VARCHAR(255)  NOT NULL,
    hitpoints INT NOT NULL,
-   rx INT NOT NULL,
+   psychicresistmin INT NOT NULL,
+   psychicresistmax INT NOT NULL,
+   physicalresistmin INT NOT NULL,
+   physicalresistmax INT NOT NULL,
+   magicresistmin INT NOT NULL,
+   magicresistmax INT NOT NULL,
+   obscureresistmax INT NOT NULL,
+   obscureresistmin INT NOT NULL,
+   technologyresistmin INT NOT NULL,
+   technologyresistmax INT NOT NULL,
+   socialresistmax INT NOT NULL,
+   socialresistmin INT NOT NULL,
    arm INT NOT NULL,
    gender BOOLEAN NOT NULL,
    taxesorigine INT NOT NULL DEFAULT 0,
    instanceupgrade UUID,
    PRIMARY KEY(id),
-   FOREIGN KEY(instanceupgrade) REFERENCES instancetype(id)
+   FOREIGN KEY(instanceupgrade) REFERENCES gameworldtype(id)
 );
 
 CREATE TABLE vacancy(
@@ -237,21 +245,21 @@ CREATE TABLE vacancy(
    dateend DATETIME NOT NULL,
    player UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(player) REFERENCES players(id)
+   FOREIGN KEY(player) REFERENCES player(id)
 );
 
 CREATE TABLE zodiac(
    id UUID,
    zodiacsign VARCHAR(255)  NOT NULL,
-   bonus UUID NOT NULL,
-   PRIMARY KEY(id),
-   FOREIGN KEY(bonus) REFERENCES BM(id)
+   effect VARCHAR(255)  NOT NULL,
+   PRIMARY KEY(id)
 );
 
 CREATE TABLE month_(
    id UUID,
    name VARCHAR(50)  NOT NULL,
    numberday INT NOT NULL,
+   order_ INT NOT NULL,
    PRIMARY KEY(id)
 );
 
@@ -263,7 +271,7 @@ CREATE TABLE news(
    dateend DATE NOT NULL,
    author UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(author) REFERENCES players(id)
+   FOREIGN KEY(author) REFERENCES player(id)
 );
 
 CREATE TABLE featfamily(
@@ -334,6 +342,20 @@ CREATE TABLE etatdumarchepast(
    PRIMARY KEY(id)
 );
 
+CREATE TABLE approval(
+   id UUID,
+   name enum NOT NULL,
+   PRIMARY KEY(id)
+);
+
+CREATE TABLE familyobject_1(
+   id UUID,
+   nom VARCHAR(50) ,
+   id_1 UUID NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_1) REFERENCES subfamilyobject(id)
+);
+
 CREATE TABLE talent(
    id UUID,
    name VARCHAR(50)  NOT NULL,
@@ -364,7 +386,7 @@ CREATE TABLE feat(
    FOREIGN KEY(family) REFERENCES featfamily(id)
 );
 
-CREATE TABLE instance(
+CREATE TABLE gameworld(
    id UUID,
    name VARCHAR(255)  NOT NULL,
    xsuperior INT NOT NULL,
@@ -377,19 +399,24 @@ CREATE TABLE instance(
    script VARCHAR(255)  NOT NULL,
    hitpoints INT NOT NULL,
    description TEXT NOT NULL,
-   rx INT NOT NULL,
+   physicalresist INT NOT NULL,
+   psychicresist INT NOT NULL,
+   obscureresist INT NOT NULL,
+   technologyresist INT NOT NULL,
+   magicresist INT NOT NULL,
+   sociaresist INT NOT NULL,
    arm INT NOT NULL,
    taxes INT,
    update_ DATETIME NOT NULL,
    instancetype UUID NOT NULL,
-   proprietaryentity TEXT,
+   proprietaryentity UUID,
    proprietaryclan UUID,
    proprietarytribe UUID,
    PRIMARY KEY(id),
    UNIQUE(proprietaryclan),
    UNIQUE(proprietarytribe),
-   FOREIGN KEY(instancetype) REFERENCES instancetype(id),
-   FOREIGN KEY(proprietaryentity) REFERENCES souls(id),
+   FOREIGN KEY(instancetype) REFERENCES gameworldtype(id),
+   FOREIGN KEY(proprietaryentity) REFERENCES soul(id),
    FOREIGN KEY(proprietaryclan) REFERENCES Clan(id),
    FOREIGN KEY(proprietarytribe) REFERENCES tribe(id)
 );
@@ -414,26 +441,26 @@ CREATE TABLE specie(
    leveladjust INT NOT NULL,
    psychicmastmin INT NOT NULL,
    psychicmastmax INT NOT NULL,
-   psychicresitmax INT NOT NULL,
-   psychicresitmin INT NOT NULL,
-   physicalresitmin INT NOT NULL,
-   physicalresitmax INT NOT NULL,
+   psychicresistmax INT NOT NULL,
+   psychicresistmin INT NOT NULL,
+   physicalresistmin INT NOT NULL,
+   physicalresistmax INT NOT NULL,
    physicalmastmin INT NOT NULL,
    physicalmastmax INT NOT NULL,
-   magicrestmin INT NOT NULL,
-   magicrestmax INT NOT NULL,
+   magicresistmin INT NOT NULL,
+   magicresistmax INT NOT NULL,
    magicmastmin INT NOT NULL,
    magicmastmax INT NOT NULL,
-   obscurerestmin INT NOT NULL,
-   obscurerestmax INT NOT NULL,
+   obscureresistmin INT NOT NULL,
+   obscureresistmax INT NOT NULL,
    obscuremastmin INT NOT NULL,
    obscuremastmax INT NOT NULL,
-   technologyrestmin INT NOT NULL,
-   technologyrestmax INT NOT NULL,
+   technologyresistmin INT NOT NULL,
+   technologyresistmax INT NOT NULL,
    technologymastmax INT NOT NULL,
    technologymastmin INT NOT NULL,
-   socialrestmin INT NOT NULL,
-   socialrestmax INT NOT NULL,
+   socialresistmin INT NOT NULL,
+   socialresistmax INT NOT NULL,
    socialmastmin INT NOT NULL,
    socialmastmax INT NOT NULL,
    nbapmovemin INT NOT NULL,
@@ -500,13 +527,11 @@ CREATE TABLE cockroach(
    id UUID,
    name VARCHAR(255)  NOT NULL,
    age INT NOT NULL,
-   status BOOLEAN NOT NULL DEFAULT TRUE,
-   souls TEXT NOT NULL,
-   bonus UUID NOT NULL,
+   status INT NOT NULL,
+   souls UUID NOT NULL,
    cockroachtype UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(souls) REFERENCES souls(id),
-   FOREIGN KEY(bonus) REFERENCES BM(id),
+   FOREIGN KEY(souls) REFERENCES soul(id),
    FOREIGN KEY(cockroachtype) REFERENCES cockroachtype(id)
 );
 
@@ -538,26 +563,26 @@ CREATE TABLE objecttype(
    droppable BOOLEAN NOT NULL,
    psychicmastmin INT NOT NULL,
    psychicmastmax INT NOT NULL,
-   psychicresitmin INT NOT NULL,
-   psychicresitmax INT NOT NULL,
-   physicalresitmin INT NOT NULL,
-   physicalresitmax INT NOT NULL,
+   psychicresistmin INT NOT NULL,
+   psychicresistmax INT NOT NULL,
+   physicalresistmin INT NOT NULL,
+   physicalresistmax INT NOT NULL,
    physicalmastmin INT NOT NULL,
    physicalmastmax INT NOT NULL,
-   magicrestmin INT NOT NULL,
-   magicrestmax INT NOT NULL,
+   magicresistmin INT NOT NULL,
+   magicresistmax INT NOT NULL,
    magicmastmin INT NOT NULL,
    magicmastmax INT NOT NULL,
-   obscurerestmin INT NOT NULL,
-   obscurerestmax INT NOT NULL,
+   obscureresistmin INT NOT NULL,
+   obscureresistmax INT NOT NULL,
    obscuremastmin INT NOT NULL,
    obscuremastmax INT NOT NULL,
-   technologyrestmin INT NOT NULL,
-   technologyrestmax INT NOT NULL,
+   technologyresistmin INT NOT NULL,
+   technologyresistmax INT NOT NULL,
    technologymastmin INT NOT NULL,
    technologymastmax INT NOT NULL,
-   socialrestmin INT NOT NULL,
-   socialrestmax INT NOT NULL,
+   socialresistmin INT NOT NULL,
+   socialresistmax INT NOT NULL,
    socialmastmin INT NOT NULL,
    socialmastmax INT NOT NULL,
    description VARCHAR(255) ,
@@ -574,15 +599,15 @@ CREATE TABLE objecttype(
    gender BOOLEAN NOT NULL,
    satiety INT NOT NULL,
    recipe UUID,
-   family UUID NOT NULL,
+   subfamily UUID NOT NULL,
    areatype UUID,
    PRIMARY KEY(id),
    FOREIGN KEY(recipe) REFERENCES recipe(id),
-   FOREIGN KEY(family) REFERENCES familyobject(id),
+   FOREIGN KEY(subfamily) REFERENCES subfamilyobject(id),
    FOREIGN KEY(areatype) REFERENCES areatype(id)
 );
 
-CREATE TABLE resourcenodestype(
+CREATE TABLE resourcenodetype(
    id UUID,
    name VARCHAR(255)  NOT NULL,
    extractmin INT NOT NULL,
@@ -601,8 +626,8 @@ CREATE TABLE location(
    descriptionpassage TEXT,
    PRIMARY KEY(target, actor),
    UNIQUE(actor),
-   FOREIGN KEY(target) REFERENCES instance(id),
-   FOREIGN KEY(actor) REFERENCES instance(id)
+   FOREIGN KEY(target) REFERENCES gameworld(id),
+   FOREIGN KEY(actor) REFERENCES gameworld(id)
 );
 
 CREATE TABLE weather(
@@ -617,17 +642,25 @@ CREATE TABLE weather(
    heat INT NOT NULL,
    instance UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(instance) REFERENCES instance(id)
+   FOREIGN KEY(instance) REFERENCES gameworld(id)
+);
+
+CREATE TABLE announcement(
+   id UUID,
+   text TEXT NOT NULL,
+   id_1 UUID NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_1) REFERENCES approval(id)
 );
 
 CREATE TABLE knows(
-   soul TEXT,
+   soul UUID,
    talent UUID,
-   percent INT NOT NULL,
+   percent INT,
    rank_ enum NOT NULL ('apprentice' ,'companion' , 'master' , 'grandmaster'),
    useinturn BOOLEAN NOT NULL,
    PRIMARY KEY(soul, talent),
-   FOREIGN KEY(soul) REFERENCES souls(id),
+   FOREIGN KEY(soul) REFERENCES soul(id),
    FOREIGN KEY(talent) REFERENCES talent(id)
 );
 
@@ -644,10 +677,9 @@ CREATE TABLE component(
 
 CREATE TABLE day_(
    id UUID,
-   jour INT NOT NULL,
+   numberday INT NOT NULL,
    year_ INT NOT NULL,
    script VARCHAR(50)  NOT NULL,
-   news TEXT,
    plant UUID NOT NULL,
    month_ UUID NOT NULL,
    zodiac UUID NOT NULL,
@@ -685,21 +717,22 @@ CREATE TABLE entity(
    deathcounts INT NOT NULL,
    dogde INT NOT NULL,
    attack INT NOT NULL,
-   damage INT NOT NULL,
+   damagephy INT NOT NULL,
+   damagemag INT NOT NULL,
    regeneration INT NOT NULL,
    perception INT NOT NULL,
    active BOOLEAN NOT NULL DEFAULT TRUE,
-   psychicresit INT NOT NULL,
+   psychicresist INT NOT NULL,
    psychicmast INT NOT NULL,
-   physicalresit INT NOT NULL,
+   physicalresist INT NOT NULL,
    physicalmast INT NOT NULL,
-   magicrest INT NOT NULL,
+   magicresist INT NOT NULL,
    magicmast INT NOT NULL,
-   obscurerest INT NOT NULL,
+   obscureresist INT NOT NULL,
    obscuremast INT NOT NULL,
-   socialrest INT NOT NULL,
+   socialresist INT NOT NULL,
    socialmast INT NOT NULL,
-   technologyrest INT NOT NULL,
+   technologyresist INT NOT NULL,
    technologymast INT NOT NULL,
    x INT NOT NULL,
    y INT NOT NULL,
@@ -728,25 +761,27 @@ CREATE TABLE entity(
    popularity INT,
    fame INT,
    reputation INT,
+   profession UUID,
+   service UUID,
    diets UUID NOT NULL,
    talentinventory UUID,
    birthday UUID NOT NULL,
    locationinstance UUID NOT NULL,
-   profession UUID,
    master UUID,
    levelseeinvisible VARCHAR(50)  NOT NULL,
-   soul TEXT NOT NULL,
+   soul UUID NOT NULL,
    specie UUID NOT NULL,
    pack UUID,
    PRIMARY KEY(id),
+   FOREIGN KEY(profession) REFERENCES profession(id),
+   FOREIGN KEY(service) REFERENCES service(id),
    FOREIGN KEY(diets) REFERENCES diets(id),
    FOREIGN KEY(talentinventory) REFERENCES talentinventory(id),
    FOREIGN KEY(birthday) REFERENCES day_(id),
-   FOREIGN KEY(locationinstance) REFERENCES instance(id),
-   FOREIGN KEY(profession) REFERENCES professions(id),
+   FOREIGN KEY(locationinstance) REFERENCES gameworld(id),
    FOREIGN KEY(master) REFERENCES entity(id),
    FOREIGN KEY(levelseeinvisible) REFERENCES levelseeinvisible(code),
-   FOREIGN KEY(soul) REFERENCES souls(id),
+   FOREIGN KEY(soul) REFERENCES soul(id),
    FOREIGN KEY(specie) REFERENCES specie(id),
    FOREIGN KEY(pack) REFERENCES pack(id)
 );
@@ -780,16 +815,16 @@ CREATE TABLE object(
    weighttime INT NOT NULL,
    actionpoint INT NOT NULL,
    psychicmast INT NOT NULL,
-   physicalresit INT NOT NULL,
-   psychicresit INT NOT NULL,
+   physicalresist INT NOT NULL,
+   psychicresist INT NOT NULL,
    physicalmast INT NOT NULL,
-   magicrest INT NOT NULL,
+   magicresist INT NOT NULL,
    magicmast INT NOT NULL,
-   obscurerest INT NOT NULL,
+   obscureresist INT NOT NULL,
    obscuremast INT NOT NULL,
-   socialrest INT NOT NULL,
+   sociaresist INT NOT NULL,
    socialmast INT NOT NULL,
-   technologyrest INT NOT NULL,
+   technologyresist INT NOT NULL,
    technologymast INT NOT NULL,
    update_ DATETIME NOT NULL,
    bury BOOLEAN NOT NULL,
@@ -817,7 +852,7 @@ CREATE TABLE religion(
    name VARCHAR(255)  NOT NULL,
    text TEXT NOT NULL,
    levelrequire INT NOT NULL,
-   pietymin INT NOT NULL,
+   pietygod INT NOT NULL,
    god UUID NOT NULL,
    PRIMARY KEY(id),
    FOREIGN KEY(god) REFERENCES entity(id)
@@ -852,7 +887,7 @@ CREATE TABLE representation(
    FOREIGN KEY(entity) REFERENCES entity(id)
 );
 
-CREATE TABLE resourcenodes(
+CREATE TABLE resourcenode(
    id UUID,
    name VARCHAR(255)  NOT NULL,
    x INT NOT NULL,
@@ -862,8 +897,8 @@ CREATE TABLE resourcenodes(
    instance UUID NOT NULL,
    ressourcenodetype UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(instance) REFERENCES instance(id),
-   FOREIGN KEY(ressourcenodetype) REFERENCES resourcenodestype(id)
+   FOREIGN KEY(instance) REFERENCES gameworld(id),
+   FOREIGN KEY(ressourcenodetype) REFERENCES resourcenodetype(id)
 );
 
 CREATE TABLE event(
@@ -904,17 +939,16 @@ CREATE TABLE building(
    PRIMARY KEY(id),
    FOREIGN KEY(proprietaryentity) REFERENCES entity(id),
    FOREIGN KEY(buildingtype) REFERENCES buildingtype(id),
-   FOREIGN KEY(instance) REFERENCES instance(id)
+   FOREIGN KEY(instance) REFERENCES gameworld(id)
 );
 
 CREATE TABLE adherent_of(
-   souls TEXT,
+   souls UUID,
    religion UUID,
-   percent INT NOT NULL,
    rank_ enum('apprentice' ,'companion' , 'master' , 'grandmaster') NOT NULL,
    piety INT NOT NULL,
    PRIMARY KEY(souls, religion),
-   FOREIGN KEY(souls) REFERENCES souls(id),
+   FOREIGN KEY(souls) REFERENCES soul(id),
    FOREIGN KEY(religion) REFERENCES religion(id)
 );
 
@@ -941,19 +975,17 @@ CREATE TABLE ai(
    vendor BOOLEAN NOT NULL,
    den UUID NOT NULL,
    entity UUID NOT NULL,
-   service UUID,
    PRIMARY KEY(Id),
    UNIQUE(entity),
-   FOREIGN KEY(den) REFERENCES instance(id),
-   FOREIGN KEY(entity) REFERENCES entity(id),
-   FOREIGN KEY(service) REFERENCES service(id)
+   FOREIGN KEY(den) REFERENCES gameworld(id),
+   FOREIGN KEY(entity) REFERENCES entity(id)
 );
 
 CREATE TABLE diplomacy(
    id UUID,
    title VARCHAR(255) ,
    visibilitylevel ENUM('public', 'private', 'secret') NOT NULL,
-   relationship_status ENUM('friendly', 'neutral', 'hostile', 'unknown') NOT NULL,
+   relationshipstatus ENUM('friendly', 'neutral', 'hostile', 'unknown') NOT NULL,
    update_ DATETIME NOT NULL,
    targetclan UUID,
    actorclan UUID NOT NULL,
@@ -1017,7 +1049,7 @@ CREATE TABLE area(
    creator UUID NOT NULL,
    areatype UUID NOT NULL,
    PRIMARY KEY(id),
-   FOREIGN KEY(instance) REFERENCES instance(id),
+   FOREIGN KEY(instance) REFERENCES gameworld(id),
    FOREIGN KEY(creator) REFERENCES entity(id),
    FOREIGN KEY(areatype) REFERENCES areatype(id)
 );
@@ -1029,9 +1061,11 @@ CREATE TABLE transaction(
    pricecustomer INT NOT NULL,
    validationvendor BOOLEAN NOT NULL,
    validationcustomer BOOLEAN NOT NULL,
+   id UUID NOT NULL,
    PRIMARY KEY(customer, vendor),
    FOREIGN KEY(customer) REFERENCES entity(id),
-   FOREIGN KEY(vendor) REFERENCES entity(id)
+   FOREIGN KEY(vendor) REFERENCES entity(id),
+   FOREIGN KEY(id) REFERENCES object(id)
 );
 
 CREATE TABLE etatdumarchepresent(
@@ -1048,6 +1082,19 @@ CREATE TABLE etatdumarchepresent(
    FOREIGN KEY(id_1) REFERENCES etatdumarchepast(id)
 );
 
+CREATE TABLE prayer(
+   id UUID,
+   percent INT NOT NULL,
+   title VARCHAR(255)  NOT NULL,
+   text TEXT NOT NULL,
+   pietymin INT NOT NULL,
+   levelrequire INT NOT NULL,
+   effect VARCHAR(255) ,
+   religion UUID NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(religion) REFERENCES religion(id)
+);
+
 CREATE TABLE enchant(
    id UUID,
    name VARCHAR(50) ,
@@ -1059,16 +1106,16 @@ CREATE TABLE enchant(
    regeneration INT NOT NULL,
    perception INT NOT NULL,
    psychicmast INT NOT NULL,
-   physicalresit INT NOT NULL,
-   psychicresit INT NOT NULL,
+   physicalresist INT NOT NULL,
+   psychicresist INT NOT NULL,
    physicalmast INT NOT NULL,
-   magicrest INT NOT NULL,
+   magicresist INT NOT NULL,
    magicmast INT NOT NULL,
-   obscurerest INT NOT NULL,
+   obscureresist INT NOT NULL,
    obscuremast INT NOT NULL,
-   socialrest INT NOT NULL,
+   socialresist INT NOT NULL,
    socialmast INT NOT NULL,
-   technologyrest INT NOT NULL,
+   technologyresist INT NOT NULL,
    technologymast INT NOT NULL,
    weighttime INT NOT NULL,
    droprate INT NOT NULL,
@@ -1093,27 +1140,27 @@ CREATE TABLE receive(
    player UUID,
    mail UUID,
    PRIMARY KEY(player, mail),
-   FOREIGN KEY(player) REFERENCES players(id),
-   FOREIGN KEY(mail) REFERENCES mails(id)
+   FOREIGN KEY(player) REFERENCES player(id),
+   FOREIGN KEY(mail) REFERENCES mail(id)
 );
 
 CREATE TABLE playeralert(
    player UUID,
    alert UUID,
-   etat VARCHAR(50) ,
+   etat BOOLEAN NOT NULL,
    PRIMARY KEY(player, alert),
-   FOREIGN KEY(player) REFERENCES players(id),
-   FOREIGN KEY(alert) REFERENCES alerts(id)
+   FOREIGN KEY(player) REFERENCES player(id),
+   FOREIGN KEY(alert) REFERENCES alert(id)
 );
 
 CREATE TABLE mode(
    credential UUID,
-   soul TEXT,
+   soul UUID,
    code VARCHAR(255)  NOT NULL,
    name VARCHAR(255)  NOT NULL,
    PRIMARY KEY(credential, soul),
-   FOREIGN KEY(credential) REFERENCES credentials(id),
-   FOREIGN KEY(soul) REFERENCES souls(id)
+   FOREIGN KEY(credential) REFERENCES credential(id),
+   FOREIGN KEY(soul) REFERENCES soul(id)
 );
 
 CREATE TABLE talentprerequisited(
@@ -1161,7 +1208,7 @@ CREATE TABLE positionobject(
    n INT NOT NULL,
    quantity INT NOT NULL,
    PRIMARY KEY(instance, object),
-   FOREIGN KEY(instance) REFERENCES instance(id),
+   FOREIGN KEY(instance) REFERENCES gameworld(id),
    FOREIGN KEY(object) REFERENCES object(id)
 );
 
@@ -1178,7 +1225,7 @@ CREATE TABLE affinityforprofessions(
    profession UUID,
    affinity VARCHAR(2) ,
    PRIMARY KEY(profession, affinity),
-   FOREIGN KEY(profession) REFERENCES professions(id),
+   FOREIGN KEY(profession) REFERENCES profession(id),
    FOREIGN KEY(affinity) REFERENCES affinity(code)
 );
 
@@ -1186,19 +1233,18 @@ CREATE TABLE prerequisitedprofession(
    profession UUID,
    prerequisited VARCHAR(2) ,
    PRIMARY KEY(profession, prerequisited),
-   FOREIGN KEY(profession) REFERENCES professions(id),
+   FOREIGN KEY(profession) REFERENCES profession(id),
    FOREIGN KEY(prerequisited) REFERENCES prerequisited(code)
 );
 
 CREATE TABLE entityfeat(
    feat UUID,
-   soul TEXT,
+   soul UUID,
    rank_ enum NOT NULL ('apprentice' ,'companion' , 'master' , 'grandmaster'),
-   uses INT NOT NULL,
    specialization VARCHAR(255)  NOT NULL,
    PRIMARY KEY(feat, soul),
    FOREIGN KEY(feat) REFERENCES feat(id),
-   FOREIGN KEY(soul) REFERENCES souls(id)
+   FOREIGN KEY(soul) REFERENCES soul(id)
 );
 
 CREATE TABLE recipeforcraft(
@@ -1237,19 +1283,19 @@ CREATE TABLE featprerequisited(
    FOREIGN KEY(prerequisited) REFERENCES prerequisited(code)
 );
 
-CREATE TABLE scribble(
+CREATE TABLE scribe(
    talent UUID,
-   soul TEXT,
+   soul UUID,
    component UUID,
    location VARCHAR(20) ,
    PRIMARY KEY(talent, soul, component),
    FOREIGN KEY(talent) REFERENCES talent(id),
-   FOREIGN KEY(soul) REFERENCES souls(id),
+   FOREIGN KEY(soul) REFERENCES soul(id),
    FOREIGN KEY(component) REFERENCES component(id)
 );
 
 CREATE TABLE necessarytolearn(
-   soul TEXT,
+   soul UUID,
    talent UUID,
    component UUID,
    quantity INT NOT NULL,
@@ -1280,10 +1326,10 @@ CREATE TABLE aggrolevel(
 
 CREATE TABLE maketask(
    queststep UUID,
-   souls TEXT,
+   souls UUID,
    PRIMARY KEY(queststep, souls),
    FOREIGN KEY(queststep) REFERENCES queststep(id),
-   FOREIGN KEY(souls) REFERENCES souls(id)
+   FOREIGN KEY(souls) REFERENCES soul(id)
 );
 
 CREATE TABLE itemreward(
@@ -1299,17 +1345,8 @@ CREATE TABLE receivenews(
    player UUID,
    news UUID,
    PRIMARY KEY(player, news),
-   FOREIGN KEY(player) REFERENCES players(id),
+   FOREIGN KEY(player) REFERENCES player(id),
    FOREIGN KEY(news) REFERENCES news(id)
-);
-
-CREATE TABLE buildingtypematter(
-   buildintype UUID,
-   matter UUID,
-   quantity INT NOT NULL,
-   PRIMARY KEY(buildintype, matter),
-   FOREIGN KEY(buildintype) REFERENCES buildingtype(id),
-   FOREIGN KEY(matter) REFERENCES matter(id)
 );
 
 CREATE TABLE objecttypematter(
@@ -1352,4 +1389,13 @@ CREATE TABLE dietsobjecttype(
    PRIMARY KEY(objecttype, diets),
    FOREIGN KEY(objecttype) REFERENCES objecttype(id),
    FOREIGN KEY(diets) REFERENCES diets(id)
+);
+
+CREATE TABLE responseannoucement(
+   id UUID,
+   id_1 UUID,
+   name VARCHAR(255)  NOT NULL,
+   PRIMARY KEY(id, id_1),
+   FOREIGN KEY(id) REFERENCES player(id),
+   FOREIGN KEY(id_1) REFERENCES announcement(id)
 );
