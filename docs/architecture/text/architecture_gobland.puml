@@ -6,7 +6,7 @@ skinparam componentStyle rectangle
 skinparam shadowing false
 skinparam defaultTextAlignment center
 
-package "Frontend" {
+package "Browser" {
     node "Navigateur du joueur" as browser {
         component "HTML / CSS /JavaScript" as client_code
     }
@@ -14,8 +14,8 @@ package "Frontend" {
 
 
 
-package "Backend" {
-    node "Serveur Web Apache / Nginx" as web_server {
+package "Application Web" {
+    node "Serveur Web" as web_server {
         component "Fichiers PHP" as php_code
         component "Gestion sessions Authentification" as auth_php
     }
