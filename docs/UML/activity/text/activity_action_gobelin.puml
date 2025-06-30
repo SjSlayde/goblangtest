@@ -43,6 +43,13 @@ elseif (L'utilisateur clique sur l'action "Décaler sa DLA")
         :Le système modifie la DLA du gobelin selon le choix de l'utilisateur et affiche un message confirmant le changement;
     }
 
+elseif (L'utilisateur clique sur l'action "Abaisser sa défense")
+    partition #D0F0C0 "Action Abaisser sa défense" {
+        :Le système affiche un message exigeant une confirmation;
+        :L'utilisateur confirme;
+        :Le système applique le malus pour abaisser les stats défensives du gobelin à 0;
+    }
+
 else (L'utilisateur clique sur la technique "Boule de feu")
     partition #FFCCCC "Utilisation technique" {
     if (Le système vérifie que l'utilisateur a suffisamment de points d'action) then (Oui)

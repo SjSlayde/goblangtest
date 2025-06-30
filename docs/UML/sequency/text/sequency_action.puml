@@ -52,6 +52,14 @@ else Action = "Décaler sa DLA"
         end
     end group
 
+else Action = "Abaisser sa défense"
+    group Action Abaisser sa défense
+        System -> UI : affiche un message exigeant une confirmation
+        Utilisateur -> UI : clique sur oui
+        UI -> System : Transmet la confirmation
+        System -> System : applique le malus pour abaisser les stats défensives du gobelin à 0
+    end group
+
 else Action = "Boule de feu"
     group Utilisation technique
         System -> System : Vérifie PA
