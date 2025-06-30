@@ -1,0 +1,35 @@
+@startuml ArchitectureWeb
+title Architecture Web - Site de Jeu de Rôle (PHP/HTML/CSS/JS + PostgreSQL)
+skinparam componentStyle rectangle
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultTextAlignment center
+
+package "Frontend" {
+    node "Navigateur du joueur" as browser {
+        component "HTML / CSS /JavaScript" as client_code
+    }
+}
+
+
+
+package "Backend" {
+    node "Serveur Web Apache / Nginx" as web_server {
+        component "Fichiers PHP" as php_code
+        component "Gestion sessions Authentification" as auth_php
+    }
+}
+
+package "Base de données" {
+    database "PostgreSQL" as db
+}
+
+' Relations
+browser --> client_code : Charge page HTML/CSS/JS
+client_code --> php_code : Requêtes HTTP (formulaires, AJAX, etc.)
+php_code --> auth_php : Appels internes
+php_code --> db : Requêtes SQL
+auth_php --> db : Vérifie identifiants
+
+@enduml
