@@ -1,0 +1,27 @@
+@startuml activity_connexion
+
+start
+
+:L'utilisateur clique sur "Jouer";
+
+if (identifiants corrects ?) then (Oui)
+
+else (Non)
+    :Redirige vers la page de connexion;
+    stop
+endif
+
+if (L'utilisateur a un gobelin enregistré) then (Oui)
+    :Le système liste ses gobelins, avec la possibilité d’en créer un nouveau via un lien dédié;
+
+else (Non)
+    :Redirige vers la page de création de gobelin;
+endif
+
+:L'utilisateur choisit un gobelin;
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+stop
+
+@enduml

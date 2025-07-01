@@ -1,0 +1,40 @@
+@startuml sequency_reve
+
+actor Utilisateur
+participant "Interface Web" as UI
+participant "Gobland" as System
+database "Base de données" as DB
+
+
+== Envoi de Rêve / Nouveau message ==
+
+Utilisateur -> UI : Clique sur "Message"
+System -> UI : Affiche l'interface des messages
+Utilisateur -> UI : Clique sur "Nouveau message"
+UI -> System : Demande l'accès à la création
+System -> DB : Vérifie les droits de l'expéditeur
+
+    box "Création d'un Rêve" #lightGray
+    System -> UI : Affiche l'interface de création de message
+
+    alt #lightgreen Rôle "dieu"
+        Utilisateur ->> UI : Possibilité de sélectionner Rêve en expéditeur
+    else #FFCCCC Rôle "joueur"
+        Utilisateur -> UI : impossibilité de changer d'expéditeur
+    end
+    Utilisateur -> UI : Sélectionne les destinataires
+    Utilisateur -> UI : Renseigne un titre, un message
+    Utilisateur -> UI : Clique sur "Envoyer"
+    UI -> System : Transmet les données du message
+    System -> DB : Vérifie la validité des destinataires et la conformité du message
+
+    alt #lightgreen Données valides
+        System -> DB : Enregistre le message
+        System -> UI : Affiche confirmation
+
+    else #FFCCCC Données invalides
+        System -> UI : Affiche un message d'erreur
+    end
+    end box
+
+@enduml

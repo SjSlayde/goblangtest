@@ -1,18 +1,21 @@
-@startuml action_gobelin_sequence
+@startuml sequency_action
 
 actor Utilisateur
 participant "Interface Web" as UI
 participant "Gobland" as System
+database "Base de données" as DB
 
 Utilisateur -> UI : Clique sur "Jouer"
 UI -> System : Vérifie les identifiants
+System -> DB : Requête de vérification identifiants
 alt #FFCCCC Identifiants incorrects
     UI -> Utilisateur : Redirige vers la page de connexion
     return
 end
 
-System -> System : Vérifie si un gobelin est enregistré
+System -> DB : Vérifie si un gobelin est enregistré
 alt #lightgreen Gobelin trouvé
+    DB --> System : Retourne la liste des gobelins
     System -> UI : Affiche la liste des gobelins + lien pour créer un nouveau
 else #FFCCCC Aucun gobelin
     UI -> Utilisateur : Redirige vers la création de gobelin
@@ -20,6 +23,7 @@ end
 
 Utilisateur -> UI : Choisit un gobelin
 UI -> System : Charge l'interface d'utilisation du gobelin
+System -> DB : Récupère les infos du gobelin
 System -> UI : Affiche l'interface
 
 Utilisateur -> UI : Clique sur "Choisir une action"
@@ -30,9 +34,9 @@ alt Action = Se déplacer
         UI -> Utilisateur : Affiche la vue déplacement
         Utilisateur -> UI : Choisit "à gauche (y-1)"
         UI -> System : Demande déplacement
-        System -> System : Vérifie les obstacles
+        System -> DB : Vérifie les obstacles
         alt #lightgreen Déplacement possible
-            System -> System : Met à jour les coordonnées
+            System -> DB : Met à jour les coordonnées
         else #FFCCCC Obstacle
             System -> UI : Affiche message "déplacement impossible"
         end
@@ -43,9 +47,9 @@ else Action = "Décaler sa DLA"
         System -> UI : Affiche l'interface de sélection de DLA
         Utilisateur -> UI : Choisit une nouvelle heure
         UI -> System : Transmet le choix
-        System -> System : Vérifie la validité du décalage
+        System -> DB : Vérifie la validité du décalage
         alt #lightgreen Décalage autorisé
-            System -> System : Met à jour la DLA
+            System -> DB : Met à jour la DLA
             System -> UI : Affiche confirmation
         else #FFCCCC Refusé
             System -> UI : Affiche un message d'erreur
@@ -57,20 +61,20 @@ else Action = "Abaisser sa défense"
         System -> UI : affiche un message exigeant une confirmation
         Utilisateur -> UI : clique sur oui
         UI -> System : Transmet la confirmation
-        System -> System : applique le malus pour abaisser les stats défensives du gobelin à 0
+        System -> DB : Applique le malus pour abaisser les stats défensives du gobelin à 0
     end group
 
 else Action = "Boule de feu"
     group Utilisation technique
-        System -> System : Vérifie PA
+        System -> DB : Vérifie PA
         alt #lightgreen Nombre de PA suffisant
             UI -> Utilisateur : Affiche interface de ciblage
             Utilisateur -> UI : Sélectionne une cible
             UI -> System : Transmet la cible
-            System -> System : Teste la compétence
+            System -> DB : Teste la compétence
             alt #lightgreen Réussite
-                System -> System : Calcule les dégâts
-                System -> System : Applique les dégâts à la cible
+                System -> System : Calcule les dégâts 
+                System -> DB : Applique les dégâts à la cible
             else #FFCCCC Échec
                 System -> UI : Affiche "action échouée"
             end
@@ -79,6 +83,8 @@ else Action = "Boule de feu"
         end
     end group
 end
-System -> System : Déduit les PA requis
+
+System -> DB : Déduit les PA requis
 System -> UI : Affiche la vue mise à jour
+
 @enduml

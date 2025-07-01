@@ -1,18 +1,21 @@
-@startuml action_gobelin_sequence_complements
+@startuml sequency_action_complements
 
 actor Utilisateur
 participant "Interface Web" as UI
 participant "Gobland" as System
+database "Base de données" as DB
 
 Utilisateur -> UI : Clique sur "Jouer"
 UI -> System : Vérifie les identifiants
+System -> DB : Requête de vérification identifiants
 alt #FFCCCC Identifiants incorrects
     UI -> Utilisateur : Redirige vers la page de connexion
     return
 end
 
-System -> System : Vérifie si un gobelin est enregistré
+System -> DB : Vérifie si un gobelin est enregistré
 alt #lightgreen Gobelin trouvé
+    DB --> System : Renvoie la liste des gobelins
     System -> UI : Affiche la liste des gobelins + lien pour créer un nouveau
 else #FFCCCC Aucun gobelin
     UI -> Utilisateur : Redirige vers la création de gobelin
@@ -20,22 +23,22 @@ end
 
 Utilisateur -> UI : Choisit un gobelin
 UI -> System : Charge l'interface d'utilisation du gobelin
+System -> DB : Charge les informations du gobelin
 System -> UI : Affiche l'interface
 
 Utilisateur -> UI : Clique sur "Choisir une action"
 UI -> Utilisateur : Affiche le menu des actions disponibles
 
-alt Action = Se déplacer
-
 alt Action = "Prier"
     group Action Prier
-        System -> System : Effectue une requête pour trouver tous les dieux et leurs prières
-        System -> UI : affiche une liste regroupant les dieux et leurs prières associées
+        System -> DB : Récupère tous les dieux et leurs prières
+        DB --> System : Renvoie les données
+        System -> UI : Affiche une liste regroupant les dieux et leurs prières associées
         Utilisateur -> UI : Choisit un dieu et une prière
         UI -> System : Envoie le choix
-        System -> System : Teste la réussite de la prière
+        System -> DB : Teste la réussite de la prière
         alt #lightgreen Réussite
-            System -> System : Applique le bonus
+            System -> DB : Applique le bonus
             System -> UI : Affiche le succès de la prière
         else #FFCCCC Échec
             System -> UI : Affiche l'échec de la prière
@@ -47,18 +50,20 @@ else Action = "Se concentrer"
         System -> UI : Affiche une interface de choix de concentration
         Utilisateur -> UI : Choisit un pourcentage
         UI -> System : Transmet le choix
-        System -> System : Applique le bonus de précision
+        System -> DB : Applique le bonus de précision
         System -> UI : Affiche la réussite
     end group
 
 else Action = "Équiper une pièce d'équipement"
     group Action Équiper équipement
-        System -> UI : Affiche les pièces d'équipement disponibles dans l'inventaire seulement si elles sont identifiées
+        System -> DB : Récupère les équipements
+        DB --> System : Renvoie les pièces d’équipement
+        System -> UI : Affiche les pièces d’équipement disponibles
         Utilisateur -> UI : Choisit une pièce d’équipement
         UI -> System : Transmet le choix
-        System -> System : Vérifie la disponibilité de l'emplacement
+        System -> DB : Vérifie la disponibilité de l'emplacement
         alt #lightgreen Équipement possible
-            System -> System : Équipe l’objet
+            System -> DB : Met à jour l'équipement
             System -> UI : Affiche confirmation
         else #FFCCCC Échec
             System -> UI : Affiche un message d’erreur
@@ -67,14 +72,17 @@ else Action = "Équiper une pièce d'équipement"
 
 else Action = "Trouver son chemin"
     group Action Trouver son chemin
-        System -> System : Recherche les points d’intérêt les plus proches
+        System -> DB : Recherche les points d’intérêt les plus proches
         alt #lightgreen Point trouvé
-            System -> System : Calcule la direction optimale
+            System -> DB : Calcule la direction optimale
             System -> UI : Affiche la direction
         else #FFCCCC Aucun point trouvé
             System -> UI : Affiche "aucun chemin identifié"
         end
     end group
-System -> System : Déduit les PA requis
+end
+
+System -> DB : Déduit les PA requis
 System -> UI : Affiche la vue mise à jour
+
 @enduml

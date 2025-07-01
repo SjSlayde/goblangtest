@@ -1,0 +1,24 @@
+@startuml action_trouver_chemin
+
+start
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Trouver son chemin";
+    
+    partition #A0E7E5 "Action Trouver son chemin" {
+        :Le système identifie les points d'intérêt de la zone (escaliers, entrées de donjon, etc.);
+        :Le système calcule le point d'intérêt le plus proche du gobelin;
+
+        if (Un point d'intérêt est trouvé) then (Oui)
+            :Le système affiche la direction vers le point le plus proche;
+        else (Non)
+            :Le système affiche un message indiquant qu’aucune destination n’a été trouvée;
+        endif
+    }
+
+:Le système réduit les PA du gobelin selon le coût de l'action;
+:Le système affiche la vue avec les données mises à jour du gobelin;
+stop
+
+@enduml

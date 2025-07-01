@@ -1,4 +1,4 @@
-@startuml droit_divin
+@startuml droit_divin_gestion_prieres
 
 start
 
@@ -12,7 +12,7 @@ repeat while (Le système vérifie que le gobelin a bien les droits) is (interdi
 
 :Le système affiche l'interface dédiée aux dieux;
 
-if (L'utilisateur choisit l'action) then (Gestion des prières)
+:L'utilisateur clique sur "Gestion des prières";
 
     partition #lightYellow "Gestion des prières" {
         :Le système affiche la liste des prières;
@@ -42,19 +42,6 @@ if (L'utilisateur choisit l'action) then (Gestion des prières)
         :Le système met à jour la prière et détermine les coûts de revient ainsi que la perte de piété du dieu.;
         :Le système affiche la liste des prières mise à jour;
     }
-
-else (Messager des songes — envoyer un rêve)
-
-    partition #lightGray "Messager des songes" {
-        repeat
-        :Le système affiche l'interface pour créer un "Rêve";
-        :L'utilisateur sélectionne le ou les destinataires;
-        :L'utilisateur écrit un titre, un message et clique sur envoyer;
-        repeat while (Le système vérifie la validité des destinataires et la conformité du message.) is (incorrect) not (correct)
-        :Le système enregistre le "Rêve" et attend que les joueurs se connectent pour le leur transmettre;
-    }
-
-endif
 
 stop
 

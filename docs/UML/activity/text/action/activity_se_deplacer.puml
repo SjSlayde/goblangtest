@@ -1,0 +1,24 @@
+@startuml action_se_deplacer
+
+start
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Se déplacer";
+
+    partition #lightGreen "Se déplacer" {
+        :Le système affiche la vue dédiée au déplacement du gobelin;
+        :L'utilisateur choisit de se déplacer à gauche (y-1);
+        
+        if (Le système vérifie qu'il n'y a pas d'obstacle) then (Déplacement possible)
+            :Le système déplace le gobelin dans la direction souhaitée et met à jour les coordonnées de l'utilisateur;
+        else (Déplacement impossible)
+            :Le système ne déplace pas le gobelin dans la direction souhaitée;
+        endif
+    }
+
+:Le système réduit les PA du gobelin selon le coût de l'action;
+:Le système affiche la vue avec les données mises à jour du gobelin;
+stop
+
+@enduml

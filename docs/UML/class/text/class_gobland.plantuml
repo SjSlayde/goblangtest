@@ -1,4 +1,4 @@
-@startuml DBVillageGreen
+@startuml class_gobland
 
 class player {
   id : UUID

@@ -1,0 +1,29 @@
+@startuml action_talent
+
+start
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Boule de feu";
+
+    partition #FFCCCC "Utilisation technique" {
+    if (Le système vérifie que l'utilisateur a suffisamment de points d'action) then (Oui)
+        :Le système affiche la vue de ciblage d'une cible;
+        :L'utilisateur sélectionne la cible via un menu listant toutes les cibles à portée;
+        
+        if (Test de la compétence) then (Oui)
+            :Le système calcule les dégâts liés à la technique et aux statistiques du lanceur;
+            :Le système applique les dégâts de la technique à la cible, en les réduisant selon ses statistiques défensives;
+        else (Non)
+            :Le système affiche un message indiquant que l'action a échoué;
+        endif
+        
+    else (Non)
+    endif
+    }
+
+:Le système réduit les PA du gobelin selon le coût de l'action;
+:Le système affiche la vue avec les données mises à jour du gobelin;
+stop
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml activity_reve
+
+start
+
+repeat
+
+:L'utilisateur clique sur "Nouveau message";
+
+:Le système vérifie que le gobelin a bien les droits;
+
+:Le système affiche l'interface de création des nouveaux messages;
+
+
+    partition #lightGray "Reve" {
+        repeat
+        if(Role "dieu") then(oui)
+        :L'utilisateur clique sur "rêve" dans la sélection des expéditeurs;
+        else(non)
+        :L'utilisateur ne peut pas sélection "rêve" dans la sélection des expéditeurs;
+        endif
+        :L'utilisateur sélectionne le ou les destinataires;
+        :L'utilisateur écrit un titre, un message et clique sur envoyer;
+        repeat while (Le système vérifie la validité des destinataires et la conformité du message.) is (incorrect) not (correct)
+        :Le système enregistre le message avec "Rêve" en expéditeur;
+    }
+
+stop
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml action_se_concentrer
+
+start
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Se concentrer";
+
+    partition #E0CCFF "Action Se concentrer" {
+        :Le système affiche une interface pour choisir un pourcentage de concentration avec leurs coûts en PA;
+        :L'utilisateur choisit un pourcentage;
+
+        if (Le gobelin a suffisamment de PA) then (Oui)
+            :Le système applique un bonus temporaire en précision;
+            :Le système affiche un message confirmant la concentration réussie;
+        else (Non)
+            :Le système affiche un message indiquant un manque de PA;
+        endif
+    }
+
+:Le système réduit les PA du gobelin selon le coût de l'action;
+:Le système affiche la vue avec les données mises à jour du gobelin;
+stop
+
+@enduml

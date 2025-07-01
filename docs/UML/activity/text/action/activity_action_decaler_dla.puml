@@ -1,0 +1,18 @@
+@startuml action_decaler_dla
+
+start
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Décaler sa DLA";
+
+    partition #D0F0C0 "Action Décaler sa DLA" {
+        :Le système affiche une interface pour choisir une nouvelle DLA;
+        :L'utilisateur sélectionne une nouvelle heure;
+        :Le système modifie la DLA du gobelin selon le choix de l'utilisateur et affiche un message confirmant le changement;
+    }
+
+:Le système affiche la vue avec les données mises à jour du gobelin;
+stop
+
+@enduml

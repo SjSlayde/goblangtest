@@ -1,0 +1,30 @@
+@startuml action_prier
+
+start
+
+:Le système affiche l'interface d'utilisation du gobelin;
+
+:L'utilisateur clique sur "Prier"; 
+
+    partition #CCCCFF "Action Prier" {
+    if (Le système vérifie que l'utilisateur a suffisamment de points d'action) then (Oui)
+        :Le système affiche une liste regroupant les dieux et leurs prières associées;
+        :L'utilisateur choisit un dieu et une prière associée;
+
+        if (Test de réussite de la prière) then (Succès)
+            :Le système retire des points de piété au dieu concerné;
+            :Le système applique le bonus lié à la prière choisie;
+            :Le système affiche un message indiquant le succès de la prière;
+        else (Échec)
+            :Le système donne des points de piété au dieu concerné;
+            :Le système affiche un message d'échec de la prière;
+        endif
+    else (Non)
+    endif
+    }
+
+:Le système réduit les PA du gobelin selon le coût de l'action;
+:Le système affiche la vue avec les données mises à jour du gobelin;
+stop
+
+@enduml
