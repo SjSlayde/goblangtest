@@ -1,4 +1,4 @@
-@startuml ArchitectureWeb
+@startuml architecture_gobland
 title Architecture Web - Site de Jeu de Rôle (PHP/HTML/CSS/JS + PostgreSQL)
 skinparam componentStyle rectangle
 
@@ -19,11 +19,29 @@ package "Application Web" {
         component "Fichiers PHP" as php_code
         component "Gestion sessions Authentification" as auth_php
     }
+    node "API REST" {
+        component "API REST\n(/api/...) \nJSON" as api
+
+        note right of api
+            (optionnel)Une API est disponible pour permettre aux joueurs de créer
+            des applications personnalisées affichant les données de
+            leur personnage, clan, bâtiments et échanges.
+        end note
+        component "Gestion Auth API\n(Token/JWT)" as api_auth
+    }
 }
 
 package "Base de données" {
     database "PostgreSQL" as db
 }
+
+
+
+[appli / client] --> api : GET /api/personnage
+api --> api_auth : Vérifie token
+api_auth --> db : Vérifie droits
+api --> php_code : Réutilise les modèles existants
+
 
 ' Relations
 browser --> client_code : Charge page HTML/CSS/JS
